@@ -10,7 +10,6 @@ import WeddingCountdown from "@/components/sections/WeddingCountdown";
 import Couple from "@/components/sections/Couple";
 import Events from "@/components/sections/Events";
 import Location from "@/components/sections/Location";
-import RSVP from "@/components/sections/RSVP";
 import FAQ from "@/components/sections/FAQ";
 import CursorGlow from "@/components/ui/CursorGlow";
 import MusicToggle from "@/components/ui/MusicToggle";
@@ -86,7 +85,6 @@ export default function Home() {
         <Suspense fallback={<GallerySkeleton />}>
           <Gallery />
         </Suspense>
-        <RSVP />
         <Location />
         <FAQ />
       </motion.div>
