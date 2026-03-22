@@ -62,7 +62,7 @@ export default function Home() {
     <main className="relative bg-background text-foreground">
       <audio ref={audioRef} src="/audio/wedding-theme.mp3" preload="metadata" loop />
       <CursorGlow />
-      <Particles />
+      <Particles active={!showIntro} />
       <MusicToggle audioRef={audioRef} isPlaying={isPlaying} setIsPlaying={setIsPlaying} />
       <StickyNav />
       <MobileStickyNav />

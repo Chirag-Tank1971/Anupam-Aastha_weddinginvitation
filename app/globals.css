@@ -50,6 +50,31 @@ body {
   }
 }
 
+/* Post-intro particles: drift from top through the viewport */
+.sparkle-fall {
+  animation-name: sparkle-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes sparkle-fall {
+  0% {
+    transform: translate3d(0, -24px, 0);
+    opacity: 0;
+  }
+  6% {
+    opacity: 0.14;
+  }
+  85% {
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate3d(var(--sparkle-drift, 0px), calc(100vh + 32px), 0);
+    opacity: 0;
+  }
+}
+
 .soft-divider {
   height: 1px;
   background: linear-gradient(90deg, transparent, rgba(178, 58, 72, 0.35), transparent);
@@ -65,6 +90,11 @@ body {
   .sparkle {
     animation: none !important;
     opacity: 0.06 !important;
+  }
+
+  .sparkle-fall {
+    animation: none !important;
+    opacity: 0.05 !important;
   }
 }
 

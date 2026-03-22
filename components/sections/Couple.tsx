@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { couple } from "@/lib/data";
 
@@ -21,9 +20,6 @@ export default function Couple() {
             viewport={{ once: true }}
             transition={{ delay: index * 0.2, duration: 0.8 }}
           >
-            {/* <div className="relative mb-5 h-80 overflow-hidden rounded-2xl">
-              <Image src={person.image} alt={person.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />
-            </div> */}
             <p className="text-xs tracking-[0.3em] uppercase text-[#b23a48]">{person.role}</p>
             <h3 className="font-heading mt-2 text-4xl text-[#111111]">{person.name}</h3>
             <p className="mt-3 text-sm leading-7 text-[#3f3f3f]">{person.bio}</p>

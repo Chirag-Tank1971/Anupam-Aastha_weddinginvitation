@@ -4,67 +4,79 @@ export const couple = {
     role: "The Bride",
     bio: "Daughter of Mr. Digvijay Kapil and Mrs. Radhika Kapil.",
     family: ["Granddaughter of Late. Shiv Kumar Kapil and Late. Nirmala Kapil."],
+    image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80",
   },
   groom: {
     name: "Mr. Anupam Rakshit",
     role: "The Groom",
     bio: "Son of Mr. Abhay Kumar Srivastava and Mrs. Chanda Srivastava.",
     family: ["Grandson of Late. Keshav Chand Srivastava and Late Shanti Devi."],
- },
+    image: "https://images.unsplash.com/photo-1590031905406-f18a426d772d?auto=format&fit=crop&w=900&q=80",
+  },
 };
 
-// export const timeline = [
-//   {
-//     year: "1 MAY",
-//     title: "Mehendi & Engagement",
-//     description:
-//       "4 PM onwards: Mehendi & High Tea at Hotel Dusit.\nDeparture from Hotel Dusit to Hotel Taj Theog for Engagement.",
-//   },
-//   {
-//     year: "2 MAY",
-//     title: "Tilak, Haldi & Sangeet",
-//     description: "11 AM onwards: Tilak at Hotel Dusit.\nHaldi at Hotel Dusit.\nSangeet.",
-//   },
-//   {
-//     year: "3 MAY",
-//     title: "Wedding",
-//     description: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
-//   },
-//   {
-//     year: "4 MAY",
-//     title: "Reception",
-//     description: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
-//   },
-// ];
 
-export const events = [
+
+export type WeddingEvent = {
+  title: string;
+  date: string;
+  time: string;
+  venue: string;
+  image: string;
+  /** Extra classes on the full-screen slide (background, etc.) */
+  slideClassName?: string;
+  /** Extra classes on the image (object-position, scale, opacity, …). Base: object-cover + full bleed. */
+  imageClassName?: string;
+  /** Classes for the text overlay wrapper (position + flex). Omit flex utilities if you override completely. */
+  overlayClassName: string;
+  /** Inner flex + text alignment (default in UI: items-center text-center) */
+  overlayContentClassName?: string;
+};
+
+export const events: WeddingEvent[] = [
   {
     title: "1 May — Mehendi & Engagement",
     date: "1 May",
     time: "4 PM onwards: Mehendi & High Tea at Hotel Dusit. Departure from Hotel Dusit to Hotel Taj Theog for Engagement.",
     venue: "Hotel Dusit Fagu & Hotel Taj Theog",
-    image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
+    image: "/events/mehendi.jpg",
+    slideClassName: "bg-[#faf8f5]",
+    imageClassName: "object-[center_42%]",
+    overlayClassName:
+      "inset-x-[7%] top-[14%] bottom-[38%] justify-center sm:inset-x-[8%] sm:top-[16%] sm:bottom-[40%]",
   },
   {
     title: "2 May — Tilak, Haldi & Sangeet",
     date: "2 May",
     time: "11 AM onwards: Tilak at Hotel Dusit. Haldi at Hotel Dusit. Sangeet.",
     venue: "Hotel Dusit Fagu",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
+    image: "/events/tilak%26haldi.jpg",
+    slideClassName: "bg-[#f7f4ef]",
+    imageClassName: "object-[center_40%]",
+    overlayClassName:
+      "inset-x-[7%] top-[16%] bottom-[30%] justify-center sm:inset-x-[8%] sm:top-[18%] sm:bottom-[32%]",
   },
   {
     title: "3 May — Wedding",
     date: "3 May",
     time: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
     venue: "Hotel Taj Theog",
-    image: "https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=1200&q=80",
+    image: "/events/reception.jpg",
+    slideClassName: "bg-[#f5f0e8]",
+    imageClassName: "object-[center_38%]",
+    overlayClassName:
+      "inset-x-[6%] top-[12%] bottom-[36%] justify-center sm:inset-x-[8%] sm:top-[14%] sm:bottom-[38%]",
   },
   {
     title: "4 May — Reception",
     date: "4 May",
     time: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
     venue: "Club Mahindra Kandaghat",
-    image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
+    image: "/events/wedding.jpg",
+    slideClassName: "bg-[#faf8f5]",
+    imageClassName: "object-[center_40%]",
+    overlayClassName:
+      "inset-x-[6%] top-[14%] bottom-[38%] justify-center sm:inset-x-[8%] sm:top-[16%] sm:bottom-[40%]",
   },
 ];
 
