@@ -1,46 +1,53 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { buildWeddingIcs, downloadIcs, WHATSAPP_SHARE_TEXT } from "@/lib/calendar";
+import { rsvpEventOptions, rsvpFunOptions } from "@/lib/data";
 import { Heart } from "lucide-react";
-
-type RSVPForm = {
-  name: string;
-  email: string;
-  attendance: "yes" | "no";
-  guests: string;
-  message: string;
-};
 
 export default function RSVP() {
   const [submitted, setSubmitted] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<RSVPForm>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = async (values: RSVPForm) => {
-    setSubmitError(null);
-    setSubmitted(false);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
 
-    const response = await fetch("/api/rsvp", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    const name = String(fd.get("name") || "").trim();
+    const attending = String(fd.get("attending") || "").trim();
+    const wishes = String(fd.get("wishes") || "").trim();
+    const guests = String(fd.get("guests") || "").trim();
+    const events = fd.getAll("events").map(String);
+    const fun = fd.getAll("fun").map(String);
 
-    if (!response.ok) {
-      setSubmitError("We could not send your RSVP right now. Please try again.");
+    if (!name || !attending) {
+      alert("Please enter your name and choose whether you are attending.");
       return;
     }
 
-    setSubmitted(true);
-    reset();
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, attending, events, fun, wishes, guests }),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => ({}))) as { error?: string };
+        alert(data.error || "We could not send your RSVP. Please try again.");
+        return;
+      }
+
+      form.reset();
+      setSubmitted(true);
+    } catch {
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSaveDate = () => {
@@ -50,63 +57,95 @@ export default function RSVP() {
   const whatsappHref = `https://wa.me/?text=${encodeURIComponent(WHATSAPP_SHARE_TEXT)}`;
 
   return (
-    <section id="rsvp" className="section-padding relative z-10 bg-[#fafafa] pb-32">
-      <h2 className="font-heading mb-10 text-center text-5xl text-[#111111]">RSVP</h2>
+    <section id="rsvp" className="rsvp section-padding relative z-10 bg-[#fafafa] pb-32">
+      <h2 className="rsvp-title font-heading mb-10 text-center text-5xl text-[#111111]">RSVP</h2>
+
       <motion.form
-        onSubmit={handleSubmit(onSubmit)}
-        className="card-gradient mx-auto grid max-w-3xl gap-4 rounded-3xl p-6 md:p-8"
+        className="rsvp-form card-gradient mx-auto grid max-w-3xl gap-4 rounded-3xl border border-[#b23a48]/15 p-6 md:p-8"
+        onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
       >
         <input
+          name="name"
+          required
           placeholder="Full Name"
-          className="rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
-          {...register("name", { required: true })}
+          className="rsvp-input rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
         />
-        {errors.name && <span className="text-xs text-[#b23a48]">Please enter your name.</span>}
 
-        <input
-          placeholder="Email"
-          className="rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
-          {...register("email", { required: true })}
-        />
-        {errors.email && <span className="text-xs text-[#b23a48]">Please enter your email.</span>}
-
-        <select className="rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none" {...register("attendance")}>
+        <label className="rsvp-label text-left text-xs font-medium uppercase tracking-wide text-[#555]">
+          Will you attend?
+        </label>
+        <select
+          name="attending"
+          required
+          className="rsvp-select rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select one
+          </option>
           <option value="yes">Joyfully Accepts</option>
           <option value="no">Regretfully Declines</option>
+          <option value="later">Will confirm later</option>
         </select>
 
         <input
+          name="guests"
           placeholder="Number of Guests"
-          className="rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
-          {...register("guests")}
+          className="rsvp-input rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
         />
 
+        <fieldset className="rsvp-fieldset rounded-xl border border-[#b23a48]/15 bg-white/80 p-4">
+          <legend className="rsvp-legend px-1 text-xs font-semibold uppercase tracking-wide text-[#b23a48]">
+            Events you plan to attend
+          </legend>
+          <div className="mt-2 flex flex-col gap-2">
+            {rsvpEventOptions.map((label) => (
+              <label key={label} className="rsvp-check-label flex cursor-pointer items-start gap-2 text-sm text-[#333]">
+                <input type="checkbox" name="events" value={label} className="rsvp-checkbox mt-1" />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset className="rsvp-fieldset rounded-xl border border-[#b23a48]/15 bg-white/80 p-4">
+          <legend className="rsvp-legend px-1 text-xs font-semibold uppercase tracking-wide text-[#b23a48]">
+            Preferences
+          </legend>
+          <div className="mt-2 flex flex-col gap-2">
+            {rsvpFunOptions.map((label) => (
+              <label key={label} className="rsvp-check-label flex cursor-pointer items-start gap-2 text-sm text-[#333]">
+                <input type="checkbox" name="fun" value={label} className="rsvp-checkbox mt-1" />
+                <span>{label}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
         <textarea
-          placeholder="Message for the couple"
-          className="min-h-28 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
-          {...register("message")}
+          name="wishes"
+          placeholder="Message or wishes for the couple"
+          className="rsvp-textarea min-h-28 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
         />
 
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="mt-2 rounded-full border border-[#b23a48]/50 px-6 py-3 text-xs uppercase tracking-[0.2em] text-[#b23a48]"
+          className="rsvp-submit mt-2 rounded-full border border-[#b23a48]/50 px-6 py-3 text-xs uppercase tracking-[0.2em] text-[#b23a48]"
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
         >
           {isSubmitting ? "Sending..." : "Submit RSVP"}
         </motion.button>
-
-        {submitError && <p className="text-sm text-[#b23a48]">{submitError}</p>}
       </motion.form>
 
       <AnimatePresence>
         {submitted && (
           <motion.div
-            className="fixed inset-0 z-[60] flex items-center justify-center bg-[#111]/55 p-6 backdrop-blur-md"
+            className="rsvp-modal-backdrop fixed inset-0 z-[60] flex items-center justify-center p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -115,27 +154,27 @@ export default function RSVP() {
             aria-labelledby="rsvp-success-title"
           >
             <motion.div
-              className="relative max-w-md rounded-3xl border border-[#b23a48]/25 bg-white p-8 text-center shadow-[0_30px_80px_rgba(17,17,17,0.2)]"
+              className="rsvp-modal relative max-w-md rounded-3xl border border-[#b23a48]/25 bg-white p-8 text-center shadow-[0_30px_80px_rgba(17,17,17,0.2)]"
               initial={{ scale: 0.92, opacity: 0, y: 16 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", stiffness: 320, damping: 28 }}
             >
               <motion.div
-                className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#b23a48]/10 text-[#b23a48]"
+                className="rsvp-modal-icon mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#b23a48]/10 text-[#b23a48]"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.1, type: "spring", stiffness: 400, damping: 18 }}
               >
                 <Heart className="h-7 w-7 fill-[#b23a48]/20" strokeWidth={1.5} />
               </motion.div>
-              <h3 id="rsvp-success-title" className="font-heading text-3xl text-[#111]">
+              <h3 id="rsvp-success-title" className="rsvp-modal-title font-heading text-3xl text-[#111]">
                 Thank You
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-[#555]">
+              <p className="rsvp-modal-body mt-3 text-sm leading-relaxed text-[#555]">
                 Your RSVP has been received. We can&apos;t wait to celebrate with you — Anupam & Aastha.
               </p>
-              <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
+              <div className="rsvp-modal-actions mt-6 flex flex-col gap-2 sm:flex-row sm:justify-center">
                 <button
                   type="button"
                   onClick={handleSaveDate}
@@ -155,7 +194,7 @@ export default function RSVP() {
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
-                className="mt-8 text-xs uppercase tracking-[0.2em] text-[#888] underline-offset-4 hover:text-[#111] hover:underline"
+                className="rsvp-modal-close mt-8 text-xs uppercase tracking-[0.2em] text-[#888] underline-offset-4 hover:text-[#111] hover:underline"
               >
                 Close
               </button>

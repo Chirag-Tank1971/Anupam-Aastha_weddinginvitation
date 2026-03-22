@@ -67,3 +67,56 @@ body {
     opacity: 0.06 !important;
   }
 }
+
+/* RSVP section & success modal */
+.rsvp {
+  scroll-margin-top: 1rem;
+}
+
+.rsvp-title {
+  letter-spacing: 0.02em;
+}
+
+.rsvp-form {
+  box-shadow: 0 20px 50px rgba(17, 17, 17, 0.06);
+}
+
+.rsvp-input:focus,
+.rsvp-select:focus,
+.rsvp-textarea:focus {
+  outline: 2px solid rgba(178, 58, 72, 0.35);
+  outline-offset: 0;
+}
+
+.rsvp-fieldset {
+  border-style: solid;
+}
+
+.rsvp-checkbox {
+  accent-color: #b23a48;
+}
+
+.rsvp-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.rsvp-modal-backdrop {
+  background: rgba(17, 17, 17, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.rsvp-modal {
+  max-height: min(90vh, 640px);
+  overflow-y: auto;
+}
+
+.rsvp-modal-title {
+  letter-spacing: 0.02em;
+}
+
+.rsvp-modal-body {
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+}

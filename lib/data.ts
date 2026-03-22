@@ -16,40 +16,57 @@ export const couple = {
 };
 
 export const timeline = [
-  { year: "2018", title: "First Meeting", description: "A shared coffee and a long conversation changed everything." },
-  { year: "2019", title: "Falling in Love", description: "Weekend walks became daily rituals and forever felt real." },
-  { year: "2022", title: "The Proposal", description: "Under a sky full of lights, a promise was made." },
-  { year: "2026", title: "The Wedding", description: "Two souls, one beautiful celebration of love." },
+  {
+    year: "1 MAY",
+    title: "Mehendi & Engagement",
+    description:
+      "4 PM onwards: Mehendi at Hotel Dusit.\nDeparture from Hotel Dusit to Hotel Taj Theog for Engagement.",
+  },
+  {
+    year: "2 MAY",
+    title: "Tilak, Haldi & Sangeet",
+    description: "11 AM onwards: Tilak at Hotel Dusit.\nHaldi at Hotel Dusit.\nSangeet.",
+  },
+  {
+    year: "3 MAY",
+    title: "Wedding",
+    description: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
+  },
+  {
+    year: "4 MAY",
+    title: "Reception",
+    description: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
+  },
 ];
 
 export const events = [
   {
-    title: "Travel & Welcome Dinner",
-    date: "30 April",
-    time: "7:00 PM Flight Lucknow to Chandigarh | 10:00 PM Dinner at Hotel Hyatt",
-    venue: "Hotel Hyatt Centric, Sector 18 Chandigarh",
-    image: "https://images.unsplash.com/photo-1464207687429-7505649dae38?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Mehendi & Engagement Day",
+    title: "1 May — Mehendi & Engagement",
     date: "1 May",
-    time: "9:00 AM Departure | 4:00 - 5:30 PM Mehendi & High Tea | 7:00 PM Engagement",
+    time: "4 PM onwards: Mehendi at Hotel Dusit. Departure from Hotel Dusit to Hotel Taj Theog for Engagement.",
     venue: "Hotel Dusit Fagu & Hotel Taj Theog",
     image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Tilak, Haldi & Sangeet",
+    title: "2 May — Tilak, Haldi & Sangeet",
     date: "2 May",
-    time: "11:00 AM - 2:00 PM Tilak | 2:30 - 4:30 PM Haldi | 7:30 PM Sangeet",
+    time: "11 AM onwards: Tilak at Hotel Dusit. Haldi at Hotel Dusit. Sangeet.",
     venue: "Hotel Dusit Fagu",
     image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80",
   },
   {
-    title: "Wedding, Bidaayi & Family Gala",
-    date: "3 - 5 May",
-    time: "3:00 PM Baraat to Taj Theog | Marriage at Sunset | 4 May Bidaayi/Pagphera | 5 May Airport Departure",
-    venue: "Hotel Dusit Fagu, Taj Theog, Hyatt Centric Chandigarh",
+    title: "3 May — Wedding",
+    date: "3 May",
+    time: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
+    venue: "Hotel Taj Theog",
     image: "https://images.unsplash.com/photo-1460978812857-470ed1c77af0?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "4 May — Reception",
+    date: "4 May",
+    time: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
+    venue: "Club Mahindra Kandaghat",
+    image: "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
@@ -134,12 +151,12 @@ export const faqItems = [
   {
     question: "Where should I stay?",
     answer:
-      "Primary celebrations are centred around Hotel Dusit Fagu (Shimla), with events also at Hotel Taj Theog and Hotel Hyatt Centric Chandigarh. Please see the Locations section for maps and directions.",
+      "Primary celebrations are centred around Hotel Dusit Fagu (Shimla), with events also at Hotel Taj Theog and Club Mahindra Kandaghat. Please see the Locations section for maps and directions.",
   },
   {
     question: "How do I reach Shimla?",
     answer:
-      "Many guests will travel via Chandigarh Airport, then by road to Shimla. Your itinerary includes coordinated movements — check the Events section for dates and timings.",
+      "Many guests will travel via Chandigarh Airport, then by road to Shimla. Check the Events and Locations sections for timings and venues.",
   },
   {
     question: "Can I bring a plus-one?",
@@ -149,6 +166,24 @@ export const faqItems = [
   {
     question: "Who can I contact for help?",
     answer:
-      "Reply to your invitation message or use the email you receive after RSVP. For urgent day-of coordination, a contact number will be shared with confirmed guests.",
+      "Reach out through your invitation channel or the hosts. For urgent day-of coordination, a contact number will be shared with confirmed guests.",
   },
+];
+
+/** Checkbox values for RSVP — must match labels guests see */
+export const rsvpEventOptions = [
+  "1 May — Mehendi & High Tea (Hotel Dusit)",
+  "1 May — Engagement (Hotel Taj Theog)",
+  "2 May — Tilak (Hotel Dusit)",
+  "2 May — Haldi (Hotel Dusit)",
+  "2 May — Sangeet",
+  "3 May — Wedding at Hotel Taj (Sunset)",
+  "4 May — Reception (Club Mahindra Kandaghat)",
+];
+
+export const rsvpFunOptions = [
+  "Vegetarian meals preferred",
+  "Need accommodation suggestions",
+  "Traveling with children",
+  "Accessibility assistance",
 ];
