@@ -4,46 +4,44 @@ export const couple = {
     role: "The Bride",
     bio: "Daughter of Mr. Digvijay Kapil and Mrs. Radhika Kapil.",
     family: ["Granddaughter of Late. Shiv Kumar Kapil and Late. Nirmala Kapil."],
-    image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80",
   },
   groom: {
     name: "Mr. Anupam Rakshit",
     role: "The Groom",
     bio: "Son of Mr. Abhay Kumar Srivastava and Mrs. Chanda Srivastava.",
     family: ["Grandson of Late. Keshav Chand Srivastava and Late Shanti Devi."],
-    image: "https://images.unsplash.com/photo-1590031905406-f18a426d772d?auto=format&fit=crop&w=900&q=80",
-  },
+ },
 };
 
-export const timeline = [
-  {
-    year: "1 MAY",
-    title: "Mehendi & Engagement",
-    description:
-      "4 PM onwards: Mehendi at Hotel Dusit.\nDeparture from Hotel Dusit to Hotel Taj Theog for Engagement.",
-  },
-  {
-    year: "2 MAY",
-    title: "Tilak, Haldi & Sangeet",
-    description: "11 AM onwards: Tilak at Hotel Dusit.\nHaldi at Hotel Dusit.\nSangeet.",
-  },
-  {
-    year: "3 MAY",
-    title: "Wedding",
-    description: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
-  },
-  {
-    year: "4 MAY",
-    title: "Reception",
-    description: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
-  },
-];
+// export const timeline = [
+//   {
+//     year: "1 MAY",
+//     title: "Mehendi & Engagement",
+//     description:
+//       "4 PM onwards: Mehendi & High Tea at Hotel Dusit.\nDeparture from Hotel Dusit to Hotel Taj Theog for Engagement.",
+//   },
+//   {
+//     year: "2 MAY",
+//     title: "Tilak, Haldi & Sangeet",
+//     description: "11 AM onwards: Tilak at Hotel Dusit.\nHaldi at Hotel Dusit.\nSangeet.",
+//   },
+//   {
+//     year: "3 MAY",
+//     title: "Wedding",
+//     description: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
+//   },
+//   {
+//     year: "4 MAY",
+//     title: "Reception",
+//     description: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
+//   },
+// ];
 
 export const events = [
   {
     title: "1 May — Mehendi & Engagement",
     date: "1 May",
-    time: "4 PM onwards: Mehendi at Hotel Dusit. Departure from Hotel Dusit to Hotel Taj Theog for Engagement.",
+    time: "4 PM onwards: Mehendi & High Tea at Hotel Dusit. Departure from Hotel Dusit to Hotel Taj Theog for Engagement.",
     venue: "Hotel Dusit Fagu & Hotel Taj Theog",
     image: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=80",
   },

@@ -8,7 +8,6 @@ import Hero from "@/components/sections/Hero";
 import CountdownScratch from "@/components/sections/CountdownScratch";
 import WeddingCountdown from "@/components/sections/WeddingCountdown";
 import Couple from "@/components/sections/Couple";
-// import LoveStoryTimeline from "@/components/sections/LoveStoryTimeline";
 import Events from "@/components/sections/Events";
 import Location from "@/components/sections/Location";
 import RSVP from "@/components/sections/RSVP";
