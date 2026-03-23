@@ -34,9 +34,17 @@ type EventSlideProps = {
   mergeBottom?: boolean;
   /** Pull this card up by 1px to hide double borders between stacked cards */
   overlapTop?: boolean;
+  /** Hide top border for non-first cards so no horizontal divider is visible */
+  hideTopBorder?: boolean;
 };
 
-function EventSlide({ event, mergeTop = false, mergeBottom = false, overlapTop = false }: EventSlideProps) {
+function EventSlide({
+  event,
+  mergeTop = false,
+  mergeBottom = false,
+  overlapTop = false,
+  hideTopBorder = false,
+}: EventSlideProps) {
   const lenis = useLenis();
   const trackRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -146,7 +154,7 @@ function EventSlide({ event, mergeTop = false, mergeBottom = false, overlapTop =
         One full-height track per slide; scroll reveals each card in order.
       */}
       <article
-        className={`relative isolate h-full w-full overflow-hidden rounded-2xl border border-black/[0.06] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.14)] ${mergeTop ? "rounded-t-none" : ""} ${mergeBottom ? "rounded-b-none" : ""} ${slideExtra}`}
+        className={`relative isolate h-full w-full overflow-hidden rounded-2xl border border-black/[0.06] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.14)] ${hideTopBorder ? "border-t-0" : ""} ${mergeTop ? "rounded-t-none" : ""} ${mergeBottom ? "rounded-b-none" : ""} ${slideExtra}`}
       >
         <motion.div
           className="absolute inset-0 h-full w-full will-change-transform"
@@ -242,6 +250,7 @@ export default function Events() {
             mergeTop={index > 0}
             mergeBottom={index < events.length - 1}
             overlapTop={index > 0}
+            hideTopBorder={index > 0}
           />
         ))}
         <VenueCard />
