@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { events, venueCard, type WeddingEvent } from "@/lib/data";
@@ -232,21 +231,23 @@ export function VenueCard() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className="relative h-[56svh] w-full shrink-0 md:h-[92dvh]">
+    <div className="relative h-[100svh] w-full shrink-0 md:h-[100dvh]">
       <article
         id="venue-card"
-        className="relative isolate h-full w-full overflow-hidden border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
-        aria-labelledby="venue-card-heading"
+        className="relative isolate h-full w-full overflow-hidden rounded-2xl border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
+        aria-label="Venue video"
       >
         {/* Full-viewport bleed (matches event slides); image covers entire area */}
         <div className="relative h-full w-full">
-          <Image
-            src={venueCard.imageSrc}
-            alt="Wedding venue illustration"
-            fill
-            className="object-cover object-center"
-            sizes="100vw"
-            priority={false}
+          <video
+            src="/events/venue.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            aria-label="Venue preview video"
           />
           <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(255,253,249,0.46)_0%,rgba(255,253,249,0.18)_42%,rgba(255,253,249,0.22)_100%)]" />
           <div className="absolute inset-0 z-[2] flex items-start justify-center px-6 pt-6 pb-10 text-center md:items-center md:px-10 md:py-14">
@@ -258,22 +259,7 @@ export function VenueCard() {
               transition={
                 reducedMotion ? { duration: 0 } : { delay: 0.35, duration: 1.9, ease: [0.22, 1, 0.36, 1] }
               }
-            >
-              <p className="font-heading text-5xl text-[#111111]">
-                Location
-              </p>
-              <h2
-                id="venue-card-heading"
-                className="font-heading mt-4 text-2xl font-semibold tracking-[0.02em] text-[#111] [text-shadow:0_1px_0_rgba(255,255,255,0.65),0_0_14px_rgba(252,249,247,0.98)] md:mt-5 md:text-[1.75rem]"
-              >
-                {venueCard.venueName}
-              </h2>
-              <p className="mt-2 font-serif text-base leading-relaxed text-[#111] [text-shadow:0_1px_0_rgba(255,255,255,0.65),0_0_12px_rgba(252,249,247,0.98)] md:mt-2.5 md:text-lg">
-                <span className="font-semibold">Address:</span> {venueCard.addressLine1}
-                <br />
-                {venueCard.addressLine2}
-              </p>
-            </motion.div>
+            />
           </div>
         </div>
       </article>
@@ -289,7 +275,7 @@ export default function Events({ includeVenueCard = true }: EventsProps) {
   return (
     <section id="events" className="relative z-10 overflow-x-hidden bg-white">
       <div className="section-padding pb-10">
-        <h2 className="font-heading text-center text-5xl text-[#111111]">Wedding Events</h2>
+        <h2 className="font-heading section-title text-center text-5xl text-[#111111]">Wedding Events</h2>
       </div>
 
       <div className="relative flex w-full flex-col gap-0">

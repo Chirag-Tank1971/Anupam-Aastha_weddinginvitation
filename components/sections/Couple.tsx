@@ -8,7 +8,7 @@ export default function Couple() {
 
   return (
     <section id="couple" className="section-padding relative z-10 bg-[#ffffff]">
-      <h2 className="font-heading mb-12 text-center text-5xl text-[#111111]">The Couple</h2>
+      <h2 className="font-heading section-title mb-12 text-center text-5xl text-[#111111]">The Couple</h2>
       <div className="soft-divider mx-auto mb-10 max-w-3xl" />
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
         {members.map((person, index) => (

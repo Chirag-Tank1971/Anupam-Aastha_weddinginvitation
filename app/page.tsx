@@ -57,7 +57,8 @@ export default function Home() {
         <Hero videoActive={!showIntro} />
         <CountdownScratch />
         <section className="relative z-10 overflow-x-hidden bg-white">
-          <div className="pb-8">
+          <div className="pt-6 pb-8">
+            <h2 className="font-heading section-title mb-6 text-center text-5xl text-[#111111]">Location</h2>
             <VenueCard />
           </div>
         </section>

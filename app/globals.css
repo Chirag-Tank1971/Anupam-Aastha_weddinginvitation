@@ -91,6 +91,31 @@ body {
   background: linear-gradient(90deg, transparent, rgba(178, 58, 72, 0.35), transparent);
 }
 
+.section-title {
+  position: relative;
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section-title::after {
+  content: "";
+  display: block;
+  width: 350px;
+  height: 2px;
+  margin: 10px auto 0;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    rgba(178, 58, 72, 0) 0%,
+    rgba(178, 58, 72, 0.25) 22%,
+    rgba(178, 58, 72, 0.75) 50%,
+    rgba(178, 58, 72, 0.25) 78%,
+    rgba(178, 58, 72, 0) 100%
+  );
+}
+
 @media (max-width: 768px) {
   body {
     cursor: auto;

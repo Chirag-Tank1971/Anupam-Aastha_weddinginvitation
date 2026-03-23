@@ -59,7 +59,7 @@ export default function RSVP() {
 
   return (
     <section id="rsvp" className="rsvp section-padding relative z-10 bg-[#fafafa] pb-32">
-      <h2 className="rsvp-title font-heading mb-10 text-center text-5xl text-[#111111]">RSVP</h2>
+      <h2 className="rsvp-title font-heading section-title mb-10 text-center text-5xl text-[#111111]">RSVP</h2>
 
       <motion.form
         className="rsvp-form card-gradient mx-auto grid max-w-3xl gap-4 rounded-3xl border border-[#b23a48]/15 p-6 md:p-8"

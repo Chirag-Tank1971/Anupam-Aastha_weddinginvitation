@@ -10,7 +10,7 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="section-padding relative z-10 bg-white">
-      <h2 className="font-heading mb-4 text-center text-5xl text-[#111111]">Guest FAQ</h2>
+      <h2 className="font-heading section-title mb-4 text-center text-5xl text-[#111111]">Guest FAQ</h2>
       <p className="mx-auto mb-10 max-w-xl text-center text-sm text-[#555]">Helpful answers for your celebration with us.</p>
       <div className="mx-auto max-w-2xl space-y-3">
         {faqItems.map((item, index) => {

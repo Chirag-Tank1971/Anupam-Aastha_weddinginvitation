@@ -28,7 +28,7 @@ export default function Location() {
 
   return (
     <section id="location" className="section-padding relative z-10 bg-white">
-      <h2 className="font-heading mb-10 text-center text-5xl text-[#111111]">How To Reach Us</h2>
+      <h2 className="font-heading section-title mb-10 text-center text-5xl text-[#111111]">How To Reach Us</h2>
       <motion.div
         className="card-gradient mx-auto max-w-4xl overflow-hidden rounded-3xl p-5 md:p-6"
         initial={{ opacity: 0, y: 24 }}
