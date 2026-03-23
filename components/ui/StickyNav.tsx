@@ -8,7 +8,7 @@ const links = [
   { href: "#countdown", label: "Timer" },
   { href: "#couple", label: "Couple" },
   { href: "#events", label: "Events" },
-  { href: "#gallery", label: "Gallery" },
+  { href: "#venue-card", label: "Venue" },
   { href: "#location", label: "Map" },
   { href: "#faq", label: "FAQ" },
 ];

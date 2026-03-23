@@ -6,9 +6,32 @@ import type { ReactNode } from "react";
 type SectionRevealProps = {
   children: ReactNode;
   className?: string;
+  /**
+   * Fade only — no translate. Use for sections with `position: sticky` children;
+   * ancestor `transform` breaks sticky against the viewport.
+   */
+  opacityOnly?: boolean;
 };
 
-export default function SectionReveal({ children, className = "" }: SectionRevealProps) {
+export default function SectionReveal({
+  children,
+  className = "",
+  opacityOnly = false,
+}: SectionRevealProps) {
+  if (opacityOnly) {
+    return (
+      <motion.div
+        className={className}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.12 }}
+        transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
       className={className}

@@ -1,150 +1,229 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
-import { useMemo, useRef } from "react";
-import { events, type WeddingEvent } from "@/lib/data";
+import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { events, venueCard, type WeddingEvent } from "@/lib/data";
+import { useLenis } from "@/lib/lenis-context";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
-const VIEWPORT = { once: true, amount: 0.3 } as const;
-const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+/** Short clips (2–3s): seek whenever scroll target differs measurably from decoded time */
+const SEEK_EPS = 0.0015;
 
-function EventCopyOverlay({
-  date,
-  title,
-  time,
-  venue,
-  overlayClassName,
-  overlayContentClassName,
-  reducedMotion,
-}: {
-  date: string;
-  title: string;
-  time: string;
-  venue: string;
-  overlayClassName: string;
-  overlayContentClassName?: string;
-  reducedMotion: boolean;
-}) {
-  const { containerVariants, itemVariants } = useMemo(() => {
-    const container: Variants = {
-      hidden: {},
-      visible: {
-        transition: {
-          staggerChildren: reducedMotion ? 0 : 0.1,
-          delayChildren: reducedMotion ? 0 : 0.22,
-        },
-      },
+type SlideMetrics = {
+  progress: number;
+  inView: boolean;
+};
+
+function getSlideMetrics(el: HTMLElement | null): SlideMetrics {
+  if (!el) return { progress: 0, inView: false };
+  const rect = el.getBoundingClientRect();
+  const vh = window.innerHeight;
+  const h = rect.height;
+  if (h <= 0) return { progress: 0, inView: false };
+  const p = (vh - rect.top) / (vh + h);
+  const inView = rect.bottom > 0 && rect.top < vh;
+  return { progress: Math.min(1, Math.max(0, p)), inView };
+}
+
+type EventSlideProps = {
+  event: WeddingEvent;
+  /** Flatten top radius for non-first cards so stacked seams are flush */
+  mergeTop?: boolean;
+  /** Flatten bottom radius so the next block (venue) sits flush — avoids a white seam from the section bg */
+  mergeBottom?: boolean;
+  /** Pull this card up by 1px to hide double borders between stacked cards */
+  overlapTop?: boolean;
+};
+
+function EventSlide({ event, mergeTop = false, mergeBottom = false, overlapTop = false }: EventSlideProps) {
+  const lenis = useLenis();
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [duration, setDuration] = useState(0);
+  const reducedMotion = useReducedMotion();
+  const parallaxY = useMotionValue(0);
+  const smoothedForParallaxRef = useRef(0);
+  const hasSeededParallaxRef = useRef(false);
+  const syncRef = useRef<() => void>(() => {});
+
+  const slideExtra = event.slideClassName ?? "bg-[#faf8f5]";
+  const videoExtra = event.videoClassName?.trim() ?? "";
+
+  const syncFromLayout = useCallback(() => {
+    const track = trackRef.current;
+    const video = videoRef.current;
+    if (!track) return;
+
+    const { progress: pRaw, inView } = getSlideMetrics(track);
+
+    if (!hasSeededParallaxRef.current) {
+      smoothedForParallaxRef.current = pRaw;
+      hasSeededParallaxRef.current = true;
+    } else {
+      smoothedForParallaxRef.current =
+        smoothedForParallaxRef.current + (pRaw - smoothedForParallaxRef.current) * 0.22;
+    }
+
+    if (!reducedMotion) {
+      parallaxY.set((smoothedForParallaxRef.current - 0.5) * 16);
+    } else {
+      parallaxY.set(0);
+    }
+
+    if (!video || !duration || !Number.isFinite(duration) || duration <= 0) {
+      return;
+    }
+
+    if (reducedMotion) {
+      if (!video.paused) video.pause();
+      return;
+    }
+
+    if (!video.paused) {
+      video.pause();
+    }
+
+    if (!inView) {
+      return;
+    }
+
+    if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+
+    const safeDur = Math.max(duration - 1e-3, 0);
+    const target = Math.min(Math.max(pRaw * duration, 0), safeDur);
+    const delta = Math.abs(video.currentTime - target);
+    if (delta > SEEK_EPS) {
+      try {
+        video.currentTime = target;
+      } catch {
+        /* seek can fail if pipeline not ready; next frame retries */
+      }
+    }
+  }, [duration, reducedMotion, parallaxY]);
+
+  syncRef.current = syncFromLayout;
+
+  useEffect(() => {
+    if (!lenis) return;
+    const onScroll = () => {
+      syncRef.current();
     };
-
-    const item: Variants = {
-      hidden: {
-        opacity: reducedMotion ? 1 : 0,
-        y: reducedMotion ? 0 : 16,
-      },
-      visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-          duration: reducedMotion ? 0.2 : 0.55,
-          ease: EASE,
-        },
-      },
+    lenis.on("scroll", onScroll);
+    onScroll();
+    return () => {
+      lenis.off("scroll", onScroll);
     };
+  }, [lenis]);
 
-    return { containerVariants: container, itemVariants: item };
-  }, [reducedMotion]);
+  useAnimationFrame(() => {
+    if (lenis) return;
+    syncRef.current();
+  });
 
-  const alignClass = overlayContentClassName ?? "items-center text-center";
+  useLayoutEffect(() => {
+    syncRef.current();
+  }, [duration]);
+
+  useEffect(() => {
+    const onResize = () => syncRef.current();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const applyDurationFromVideo = useCallback((v: HTMLVideoElement) => {
+    const d = v.duration;
+    if (Number.isFinite(d) && d > 0) setDuration(d);
+  }, []);
 
   return (
-    <motion.div
-      className={`pointer-events-none absolute flex flex-col px-3 ${alignClass} ${overlayClassName}`}
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT}
+    <div
+      ref={trackRef}
+      className={`relative h-[100svh] w-full shrink-0 md:h-[100dvh] ${overlapTop ? "-mt-px" : ""}`}
     >
-      <motion.p
-        variants={itemVariants}
-        className="text-[0.6rem] font-semibold uppercase tracking-[0.26em] text-[#6b5b52] sm:text-[0.65rem]"
+      {/*
+        No negative margins / sticky stack — those compressed the whole section into one viewport.
+        One full-height track per slide; scroll reveals each card in order.
+      */}
+      <article
+        className={`relative isolate h-full w-full overflow-hidden rounded-2xl border border-black/[0.06] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.14)] ${mergeTop ? "rounded-t-none" : ""} ${mergeBottom ? "rounded-b-none" : ""} ${slideExtra}`}
       >
-        {date}
-      </motion.p>
-      <motion.h3
-        variants={itemVariants}
-        className="font-heading mt-2 max-w-[18ch] text-xl leading-snug text-[#111111] sm:mt-3 sm:max-w-[22ch] sm:text-2xl md:text-[1.65rem]"
-      >
-        {title}
-      </motion.h3>
-      <motion.p
-        variants={itemVariants}
-        className="mt-3 max-w-[28ch] text-[0.8rem] leading-relaxed text-[#3a3a3a] sm:mt-4 sm:max-w-md sm:text-sm"
-      >
-        {time}
-      </motion.p>
-      <motion.p
-        variants={itemVariants}
-        className="mt-3 max-w-[32ch] text-[0.62rem] font-semibold uppercase leading-snug tracking-[0.14em] text-[#b23a48] sm:mt-4 sm:text-[0.68rem] sm:tracking-[0.16em]"
-      >
-        {venue}
-      </motion.p>
-    </motion.div>
+        <motion.div
+          className="absolute inset-0 h-full w-full will-change-transform"
+          style={{ y: reducedMotion ? 0 : parallaxY }}
+        >
+          <div className="relative h-full w-full">
+            <video
+              key={event.videoSrc}
+              ref={videoRef}
+              src={event.videoSrc}
+              muted
+              playsInline
+              preload="auto"
+              className={["absolute inset-0 h-full w-full object-cover object-center", videoExtra]
+                .filter(Boolean)
+                .join(" ")}
+              onLoadedMetadata={(e) => {
+                const v = e.currentTarget;
+                applyDurationFromVideo(v);
+                v.pause();
+                v.currentTime = 0;
+              }}
+              onDurationChange={(e) => applyDurationFromVideo(e.currentTarget)}
+              onLoadedData={(e) => {
+                const v = e.currentTarget;
+                applyDurationFromVideo(v);
+                v.pause();
+                syncRef.current();
+              }}
+              aria-label={event.title}
+            />
+          </div>
+        </motion.div>
+      </article>
+    </div>
   );
 }
 
-function EventSlide({ event }: { event: WeddingEvent }) {
-  const ref = useRef<HTMLElement | null>(null);
-  const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [10, -10]);
-
-  const slideExtra = event.slideClassName ?? "bg-[#faf8f5]";
-  const imageExtra = event.imageClassName?.trim() ?? "";
-
+function VenueCard() {
   return (
-    <motion.article
-      ref={ref}
-      className={`relative h-[100svh] w-full overflow-hidden md:h-[100dvh] ${slideExtra}`}
-    >
-      <motion.div
-        className="absolute inset-0 h-full w-full will-change-transform"
-        style={{ y: reducedMotion ? 0 : parallaxY }}
+    <div className="relative -mt-px h-[42svh] w-full shrink-0 md:h-[90dvh]">
+      <article
+        id="venue-card"
+        className="relative isolate h-full w-full overflow-hidden rounded-2xl rounded-t-none border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
+        aria-labelledby="venue-card-heading"
       >
-        <motion.div
-          className="relative h-full w-full origin-center"
-          initial={reducedMotion ? { opacity: 0 } : { opacity: 0, scale: 1.05 }}
-          whileInView={reducedMotion ? { opacity: 1 } : { opacity: 1, scale: 0.95 }}
-          viewport={VIEWPORT}
-          transition={{
-            duration: reducedMotion ? 0.25 : 0.9,
-            ease: EASE,
-          }}
-        >
+        {/* Full-viewport bleed (matches event slides); image covers entire area */}
+        <div className="relative h-full w-full">
           <Image
-            key={event.image}
-            src={event.image}
-            alt={event.title}
+            src={venueCard.imageSrc}
+            alt="Wedding venue illustration"
             fill
+            className="object-cover object-center"
             sizes="100vw"
-            className={["object-cover object-center", imageExtra].filter(Boolean).join(" ")}
             priority={false}
           />
-        </motion.div>
-      </motion.div>
-      <EventCopyOverlay
-        date={event.date}
-        title={event.title}
-        time={event.time}
-        venue={event.venue}
-        overlayClassName={event.overlayClassName}
-        overlayContentClassName={event.overlayContentClassName}
-        reducedMotion={reducedMotion}
-      />
-    </motion.article>
+          <div className="absolute inset-0 z-[2] flex items-center justify-center px-6 py-10 text-center md:px-10 md:py-14">
+            <div className="w-full max-w-lg -translate-y-6 md:-translate-y-10">
+              <p className="font-heading text-5xl text-[#111111]">
+                Location
+              </p>
+              <h2
+                id="venue-card-heading"
+                className="font-heading mt-4 text-2xl font-semibold tracking-[0.02em] text-[#111] [text-shadow:0_0_20px_rgba(252,249,247,0.95),0_1px_2px_rgba(255,253,247,0.9)] md:mt-5 md:text-[1.75rem]"
+              >
+                {venueCard.venueName}
+              </h2>
+              <p className="mt-2 font-serif text-base leading-relaxed text-[#111] [text-shadow:0_0_16px_rgba(252,249,247,0.92),0_1px_2px_rgba(255,253,247,0.85)] md:mt-2.5 md:text-lg">
+                <span className="font-semibold">Address:</span> {venueCard.addressLine1}
+                <br />
+                {venueCard.addressLine2}
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
   );
 }
 
@@ -155,10 +234,17 @@ export default function Events() {
         <h2 className="font-heading text-center text-5xl text-[#111111]">Wedding Events</h2>
       </div>
 
-      <div className="flex w-full flex-col">
-        {events.map((event) => (
-          <EventSlide key={event.title} event={event} />
+      <div className="relative flex w-full flex-col gap-0">
+        {events.map((event, index) => (
+          <EventSlide
+            key={event.title}
+            event={event}
+            mergeTop={index > 0}
+            mergeBottom={index < events.length - 1}
+            overlapTop={index > 0}
+          />
         ))}
+        <VenueCard />
       </div>
     </section>
   );

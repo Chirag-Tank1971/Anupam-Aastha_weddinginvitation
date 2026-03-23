@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 const quickLinks = [
   { href: "#date", label: "Date" },
   { href: "#events", label: "Events" },
+  { href: "#venue-card", label: "Venue" },
   { href: "#location", label: "Map" },
 ];
 

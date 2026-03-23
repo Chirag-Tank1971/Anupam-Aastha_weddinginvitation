@@ -27,7 +27,7 @@ export default function FAQ() {
                 className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left"
                 aria-expanded={open}
               >
-                <span className="font-medium text-[#111]">{item.question}</span>
+                <span className="font-heading text-lg font-medium text-[#111] md:text-xl">{item.question}</span>
                 <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
                   <ChevronDown className="h-5 w-5 shrink-0 text-[#b23a48]" />
                 </motion.span>

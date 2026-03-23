@@ -304,7 +304,7 @@ export default function CountdownScratch() {
                 <p className="mt-3 text-sm uppercase tracking-[0.2em] text-[#b23a48]">
                   Marriage at Sunset | 3:00 PM Baraat Move
                 </p>
-                <p className="mt-2 text-sm text-[#444]">Hotel Taj Theog, Shimla</p>
+                <p className="font-heading mt-2 text-base text-[#444] md:text-lg">Hotel Taj Theog, Shimla</p>
               </motion.div>
             )}
 

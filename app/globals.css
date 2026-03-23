@@ -20,8 +20,18 @@ body {
   cursor: none;
 }
 
+/* Section titles & display headings — script (Great Vibes), matches “Location” style */
 .font-heading {
-  font-family: var(--font-heading), serif;
+  font-family: var(--font-script), cursive;
+}
+
+.font-script {
+  font-family: var(--font-script), cursive;
+}
+
+/* Serif (Playfair) for names/addresses/body lines that shouldn’t be full script */
+.font-serif {
+  font-family: var(--font-heading), Georgia, serif;
 }
 
 .section-padding {

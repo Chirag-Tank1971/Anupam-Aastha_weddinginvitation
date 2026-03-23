@@ -19,75 +19,60 @@ export const couple = {
 
 export type WeddingEvent = {
   title: string;
-  date: string;
-  time: string;
-  venue: string;
-  image: string;
+  /** Path under /public, e.g. /events/mehendi.mp4 */
+  videoSrc: string;
+  /** Extra classes on the video (object-position, …). Base: object-cover + full bleed. */
+  videoClassName?: string;
   /** Extra classes on the full-screen slide (background, etc.) */
   slideClassName?: string;
-  /** Extra classes on the image (object-position, scale, opacity, …). Base: object-cover + full bleed. */
-  imageClassName?: string;
-  /** Classes for the text overlay wrapper (position + flex). Omit flex utilities if you override completely. */
-  overlayClassName: string;
-  /** Inner flex + text alignment (default in UI: items-center text-center) */
-  overlayContentClassName?: string;
 };
 
 export const events: WeddingEvent[] = [
   {
-    title: "1 May — Mehendi & Engagement",
-    date: "1 May",
-    time: "4 PM onwards: Mehendi & High Tea at Hotel Dusit. Departure from Hotel Dusit to Hotel Taj Theog for Engagement.",
-    venue: "Hotel Dusit Fagu & Hotel Taj Theog",
-    image: "/events/mehendi.jpg",
+    title: "1 May — Mehendi",
+    videoSrc: "/events/mehendi.mp4",
     slideClassName: "bg-[#faf8f5]",
-    imageClassName: "object-[center_42%]",
-    overlayClassName:
-      "inset-x-[7%] top-[14%] bottom-[38%] justify-center sm:inset-x-[8%] sm:top-[16%] sm:bottom-[40%]",
+    videoClassName: "object-[center_42%]",
   },
   {
-    title: "2 May — Tilak, Haldi & Sangeet",
-    date: "2 May",
-    time: "11 AM onwards: Tilak at Hotel Dusit. Haldi at Hotel Dusit. Sangeet.",
-    venue: "Hotel Dusit Fagu",
-    image: "/events/tilak%26haldi.jpg",
+    title: "1 May — Engagement",
+    videoSrc: "/events/engagment.mp4",
+    slideClassName: "bg-[#f8f5f0]",
+    videoClassName: "object-[center_42%]",
+  },
+  {
+    title: "2 May — Haldi",
+    videoSrc: "/events/haldi.mp4",
     slideClassName: "bg-[#f7f4ef]",
-    imageClassName: "object-[center_40%]",
-    overlayClassName:
-      "inset-x-[7%] top-[16%] bottom-[30%] justify-center sm:inset-x-[8%] sm:top-[18%] sm:bottom-[32%]",
+    videoClassName: "object-[center_40%]",
+  },
+  {
+    title: "2 May — Sangeet",
+    videoSrc: "/events/sangeet.mp4",
+    slideClassName: "bg-[#f7f4ef]",
+    videoClassName: "object-[center_40%]",
   },
   {
     title: "3 May — Wedding",
-    date: "3 May",
-    time: "3 PM onwards: Wedding at Hotel Taj for Marriage at Sunset.",
-    venue: "Hotel Taj Theog",
-    image: "/events/reception.jpg",
+    videoSrc: "/events/wedding.mp4",
     slideClassName: "bg-[#f5f0e8]",
-    imageClassName: "object-[center_38%]",
-    overlayClassName:
-      "inset-x-[6%] top-[12%] bottom-[36%] justify-center sm:inset-x-[8%] sm:top-[14%] sm:bottom-[38%]",
+    videoClassName: "object-[center_38%]",
   },
   {
     title: "4 May — Reception",
-    date: "4 May",
-    time: "2 PM onwards: Reception at Club Mahindra Kandaghat.",
-    venue: "Club Mahindra Kandaghat",
-    image: "/events/wedding.jpg",
+    videoSrc: "/events/reception.mp4",
     slideClassName: "bg-[#faf8f5]",
-    imageClassName: "object-[center_40%]",
-    overlayClassName:
-      "inset-x-[6%] top-[14%] bottom-[38%] justify-center sm:inset-x-[8%] sm:top-[16%] sm:bottom-[40%]",
+    videoClassName: "object-[center_40%]",
   },
 ];
 
-export const galleryImages = [
-  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1472653431158-6364773b2a56?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1513278974582-3e1b4a4fa21c?auto=format&fit=crop&w=1200&q=80",
-  "https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=1200&q=80",
-];
+/** Full-bleed venue card after event videos (uses /public/events/venue.png). */
+export const venueCard = {
+  imageSrc: "/events/venue.png",
+  venueName: "Hotel Taj Theog",
+  addressLine1: "Near Shimla",
+  addressLine2: "Himachal Pradesh",
+} as const;
 
 export const locationTabs = [
   {
