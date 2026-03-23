@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { buildWeddingIcs, downloadIcs, WHATSAPP_SHARE_TEXT } from "@/lib/calendar";
 import { rsvpEventOptions, rsvpFunOptions } from "@/lib/data";
 import { Heart } from "lucide-react";
@@ -9,6 +9,7 @@ import { Heart } from "lucide-react";
 export default function RSVP() {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,19 +69,21 @@ export default function RSVP() {
         viewport={{ once: true }}
       >
         <input
+          id="rsvp-name"
           name="name"
           required
           placeholder="Full Name"
-          className="rsvp-input rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
+          className="rsvp-input min-h-11 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-base text-[#111] outline-none"
         />
 
-        <label className="rsvp-label text-left text-xs font-medium uppercase tracking-wide text-[#555]">
+        <label htmlFor="rsvp-attending" className="rsvp-label text-left text-sm font-medium uppercase tracking-wide text-[#444]">
           Will you attend?
         </label>
         <select
+          id="rsvp-attending"
           name="attending"
           required
-          className="rsvp-select rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
+          className="rsvp-select min-h-11 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-base text-[#111] outline-none"
           defaultValue=""
         >
           <option value="" disabled>
@@ -92,9 +95,10 @@ export default function RSVP() {
         </select>
 
         <input
+          id="rsvp-guests"
           name="guests"
           placeholder="Number of Guests"
-          className="rsvp-input rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
+          className="rsvp-input min-h-11 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-base text-[#111] outline-none"
         />
 
         <fieldset className="rsvp-fieldset rounded-xl border border-[#b23a48]/15 bg-white/80 p-4">
@@ -103,8 +107,8 @@ export default function RSVP() {
           </legend>
           <div className="mt-2 flex flex-col gap-2">
             {rsvpEventOptions.map((label) => (
-              <label key={label} className="rsvp-check-label flex cursor-pointer items-start gap-2 text-sm text-[#333]">
-                <input type="checkbox" name="events" value={label} className="rsvp-checkbox mt-1" />
+              <label key={label} className="rsvp-check-label flex min-h-11 cursor-pointer items-start gap-3 py-1.5 text-sm text-[#333]">
+                <input type="checkbox" name="events" value={label} className="rsvp-checkbox mt-1 h-4 w-4" />
                 <span>{label}</span>
               </label>
             ))}
@@ -117,8 +121,8 @@ export default function RSVP() {
           </legend>
           <div className="mt-2 flex flex-col gap-2">
             {rsvpFunOptions.map((label) => (
-              <label key={label} className="rsvp-check-label flex cursor-pointer items-start gap-2 text-sm text-[#333]">
-                <input type="checkbox" name="fun" value={label} className="rsvp-checkbox mt-1" />
+              <label key={label} className="rsvp-check-label flex min-h-11 cursor-pointer items-start gap-3 py-1.5 text-sm text-[#333]">
+                <input type="checkbox" name="fun" value={label} className="rsvp-checkbox mt-1 h-4 w-4" />
                 <span>{label}</span>
               </label>
             ))}
@@ -126,17 +130,18 @@ export default function RSVP() {
         </fieldset>
 
         <textarea
+          id="rsvp-wishes"
           name="wishes"
           placeholder="Message or wishes for the couple"
-          className="rsvp-textarea min-h-28 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-[#111] outline-none"
+          className="rsvp-textarea min-h-32 rounded-xl border border-[#b23a48]/20 bg-white px-4 py-3 text-base text-[#111] outline-none"
         />
 
         <motion.button
           type="submit"
           disabled={isSubmitting}
-          className="rsvp-submit mt-2 rounded-full border border-[#b23a48]/50 px-6 py-3 text-xs uppercase tracking-[0.2em] text-[#b23a48]"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
+          className="rsvp-submit mt-2 min-h-11 rounded-full border border-[#b23a48]/50 px-6 py-3 text-xs uppercase tracking-[0.2em] text-[#b23a48]"
+          whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+          whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
         >
           {isSubmitting ? "Sending..." : "Submit RSVP"}
         </motion.button>

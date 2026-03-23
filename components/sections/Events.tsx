@@ -229,6 +229,8 @@ function EventSlide({
 }
 
 export function VenueCard() {
+  const reducedMotion = useReducedMotion();
+
   return (
     <div className="relative h-[56svh] w-full shrink-0 md:h-[92dvh]">
       <article
@@ -246,24 +248,27 @@ export function VenueCard() {
             sizes="100vw"
             priority={false}
           />
+          <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(180deg,rgba(255,253,249,0.46)_0%,rgba(255,253,249,0.18)_42%,rgba(255,253,249,0.22)_100%)]" />
           <div className="absolute inset-0 z-[2] flex items-start justify-center px-6 pt-6 pb-10 text-center md:items-center md:px-10 md:py-14">
             <motion.div
-              className="w-full max-w-lg -translate-y-8 rounded-xl bg-[rgba(252,249,247,0.56)] px-4 py-3 backdrop-blur-[1px] md:-translate-y-32 md:px-6 md:py-4"
-              initial={{ opacity: 0, y: 90 }}
+              className="w-full max-w-lg -translate-y-8 rounded-xl bg-[rgba(252,249,247,0.72)] px-4 py-3 backdrop-blur-[1px] md:-translate-y-32 md:px-6 md:py-4"
+              initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 90 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.45 }}
-              transition={{ delay: 0.35, duration: 1.9, ease: [0.22, 1, 0.36, 1] }}
+              transition={
+                reducedMotion ? { duration: 0 } : { delay: 0.35, duration: 1.9, ease: [0.22, 1, 0.36, 1] }
+              }
             >
               <p className="font-heading text-5xl text-[#111111]">
                 Location
               </p>
               <h2
                 id="venue-card-heading"
-                className="font-heading mt-4 text-2xl font-semibold tracking-[0.02em] text-[#111] [text-shadow:0_0_20px_rgba(252,249,247,0.95),0_1px_2px_rgba(255,253,247,0.9)] md:mt-5 md:text-[1.75rem]"
+                className="font-heading mt-4 text-2xl font-semibold tracking-[0.02em] text-[#111] [text-shadow:0_1px_0_rgba(255,255,255,0.65),0_0_14px_rgba(252,249,247,0.98)] md:mt-5 md:text-[1.75rem]"
               >
                 {venueCard.venueName}
               </h2>
-              <p className="mt-2 font-serif text-base leading-relaxed text-[#111] [text-shadow:0_0_16px_rgba(252,249,247,0.92),0_1px_2px_rgba(255,253,247,0.85)] md:mt-2.5 md:text-lg">
+              <p className="mt-2 font-serif text-base leading-relaxed text-[#111] [text-shadow:0_1px_0_rgba(255,255,255,0.65),0_0_12px_rgba(252,249,247,0.98)] md:mt-2.5 md:text-lg">
                 <span className="font-semibold">Address:</span> {venueCard.addressLine1}
                 <br />
                 {venueCard.addressLine2}
