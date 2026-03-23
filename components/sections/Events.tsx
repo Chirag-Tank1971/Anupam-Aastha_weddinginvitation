@@ -54,6 +54,7 @@ function EventSlide({
   const smoothedForParallaxRef = useRef(0);
   const hasSeededParallaxRef = useRef(false);
   const syncRef = useRef<() => void>(() => {});
+  const hasPrimedVideoRef = useRef(false);
 
   const slideExtra = event.slideClassName ?? "bg-[#faf8f5]";
   const videoExtra = event.videoClassName?.trim() ?? "";
@@ -96,7 +97,8 @@ function EventSlide({
       return;
     }
 
-    if (video.readyState < HTMLMediaElement.HAVE_METADATA) return;
+    // iOS often reports metadata before enough frame data is decodable for visual seeking.
+    if (video.readyState < HTMLMediaElement.HAVE_CURRENT_DATA) return;
 
     const safeDur = Math.max(duration - 1e-3, 0);
     const target = Math.min(Math.max(pRaw * duration, 0), safeDur);
@@ -114,18 +116,16 @@ function EventSlide({
 
   useEffect(() => {
     if (!lenis) return;
-    const onScroll = () => {
-      syncRef.current();
-    };
-    lenis.on("scroll", onScroll);
-    onScroll();
+    const onLenisScroll = () => syncRef.current();
+    lenis.on("scroll", onLenisScroll);
+    onLenisScroll();
     return () => {
-      lenis.off("scroll", onScroll);
+      lenis.off("scroll", onLenisScroll);
     };
   }, [lenis]);
 
   useAnimationFrame(() => {
-    if (lenis) return;
+    // Always run frame sync so scrub behavior is consistent across native scroll and Lenis.
     syncRef.current();
   });
 
@@ -137,6 +137,41 @@ function EventSlide({
     const onResize = () => syncRef.current();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => syncRef.current();
+    const onOrientationChange = () => syncRef.current();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("orientationchange", onOrientationChange);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("orientationchange", onOrientationChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const primeOnFirstGesture = async () => {
+      if (hasPrimedVideoRef.current) return;
+      const v = videoRef.current;
+      if (!v) return;
+      hasPrimedVideoRef.current = true;
+      try {
+        await v.play();
+      } catch {
+        // Ignore; we'll still try to pause and continue with scroll-seek flow.
+      } finally {
+        v.pause();
+        syncRef.current();
+      }
+    };
+
+    window.addEventListener("touchstart", primeOnFirstGesture, { passive: true, once: true });
+    window.addEventListener("pointerdown", primeOnFirstGesture, { passive: true, once: true });
+    return () => {
+      window.removeEventListener("touchstart", primeOnFirstGesture);
+      window.removeEventListener("pointerdown", primeOnFirstGesture);
+    };
   }, []);
 
   const applyDurationFromVideo = useCallback((v: HTMLVideoElement) => {
