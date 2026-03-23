@@ -228,12 +228,12 @@ function EventSlide({
   );
 }
 
-function VenueCard() {
+export function VenueCard() {
   return (
-    <div className="relative -mt-px h-[42svh] w-full shrink-0 md:h-[90dvh]">
+    <div className="relative h-[56svh] w-full shrink-0 md:h-[92dvh]">
       <article
         id="venue-card"
-        className="relative isolate h-full w-full overflow-hidden rounded-2xl rounded-t-none border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
+        className="relative isolate h-full w-full overflow-hidden border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
         aria-labelledby="venue-card-heading"
       >
         {/* Full-viewport bleed (matches event slides); image covers entire area */}
@@ -246,8 +246,14 @@ function VenueCard() {
             sizes="100vw"
             priority={false}
           />
-          <div className="absolute inset-0 z-[2] flex items-center justify-center px-6 py-10 text-center md:px-10 md:py-14">
-            <div className="w-full max-w-lg -translate-y-6 md:-translate-y-10">
+          <div className="absolute inset-0 z-[2] flex items-start justify-center px-6 pt-6 pb-10 text-center md:items-center md:px-10 md:py-14">
+            <motion.div
+              className="w-full max-w-lg -translate-y-8 rounded-xl bg-[rgba(252,249,247,0.56)] px-4 py-3 backdrop-blur-[1px] md:-translate-y-32 md:px-6 md:py-4"
+              initial={{ opacity: 0, y: 90 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.45 }}
+              transition={{ delay: 0.35, duration: 1.9, ease: [0.22, 1, 0.36, 1] }}
+            >
               <p className="font-heading text-5xl text-[#111111]">
                 Location
               </p>
@@ -262,7 +268,7 @@ function VenueCard() {
                 <br />
                 {venueCard.addressLine2}
               </p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </article>
@@ -270,7 +276,11 @@ function VenueCard() {
   );
 }
 
-export default function Events() {
+type EventsProps = {
+  includeVenueCard?: boolean;
+};
+
+export default function Events({ includeVenueCard = true }: EventsProps) {
   return (
     <section id="events" className="relative z-10 overflow-x-hidden bg-white">
       <div className="section-padding pb-10">
@@ -288,7 +298,7 @@ export default function Events() {
             hideTopBorder={index > 0}
           />
         ))}
-        <VenueCard />
+        {includeVenueCard ? <VenueCard /> : null}
       </div>
     </section>
   );

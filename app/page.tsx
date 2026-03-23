@@ -8,8 +8,7 @@ import Hero from "@/components/sections/Hero";
 import CountdownScratch from "@/components/sections/CountdownScratch";
 import WeddingCountdown from "@/components/sections/WeddingCountdown";
 import Couple from "@/components/sections/Couple";
-import Events from "@/components/sections/Events";
-import Location from "@/components/sections/Location";
+import Events, { VenueCard } from "@/components/sections/Events";
 import FAQ from "@/components/sections/FAQ";
 import CursorGlow from "@/components/ui/CursorGlow";
 import MusicToggle from "@/components/ui/MusicToggle";
@@ -57,14 +56,18 @@ export default function Home() {
       >
         <Hero videoActive={!showIntro} />
         <CountdownScratch />
+        <section className="relative z-10 overflow-x-hidden bg-white">
+          <div className="pb-8">
+            <VenueCard />
+          </div>
+        </section>
         <WeddingCountdown />
         <SectionReveal>
           <Couple />
         </SectionReveal>
         <SectionReveal opacityOnly>
-          <Events />
+          <Events includeVenueCard={false} />
         </SectionReveal>
-        <Location />
         <FAQ />
       </motion.div>
       {showIntro && <IntroOverlay onOpen={handleOpen} onRevealComplete={() => setShowIntro(false)} />}

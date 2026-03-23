@@ -100,7 +100,7 @@ export default function IntroOverlay({ onOpen, onRevealComplete }: IntroOverlayP
         </motion.p>
 
         <motion.h1
-          className="font-heading text-[3.2rem] leading-[0.95] text-[#fff2f3] md:text-8xl"
+          className="font-serif text-[2.55rem] font-semibold leading-[1.04] tracking-[0.01em] text-[#fff2f3] md:text-7xl"
           initial={{ opacity: 0, y: 22 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.45, duration: 1.1 }}

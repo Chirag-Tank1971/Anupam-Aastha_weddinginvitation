@@ -21,7 +21,9 @@ export default function Couple() {
             transition={{ delay: index * 0.2, duration: 0.8 }}
           >
             <p className="text-xs tracking-[0.3em] uppercase text-[#b23a48]">{person.role}</p>
-            <h3 className="font-heading mt-2 text-4xl text-[#111111]">{person.name}</h3>
+            <h3 className="font-serif mt-2 text-[2rem] font-semibold leading-tight text-[#111111] md:text-[2.15rem]">
+              {person.name}
+            </h3>
             <p className="mt-3 text-sm leading-7 text-[#3f3f3f]">{person.bio}</p>
             {"family" in person && Array.isArray(person.family) && (
               <div className="mt-3 space-y-1">
