@@ -1,132 +1,166 @@
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { NextRequest, NextResponse } from "next/server";
 
-/** Used when RSVP_EMAIL_ADDRESS is not set — replace with your inbox or always set the env var. */
-const FALLBACK_RSVP_INBOX = "your.inbox@gmail.com";
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-const FROM_ADDRESS = "Wedding RSVP <onboarding@resend.dev>";
-
-type RSVPBody = {
-  name?: string;
-  attending?: string;
-  events?: string | string[];
-  fun?: string | string[];
-  wishes?: string;
-  guests?: string;
-};
-
-const resendApiKey = process.env.RESEND_API_KEY;
-
-function normalizeStringArray(value: string | string[] | undefined): string[] {
-  if (value === undefined || value === null) return [];
-  return Array.isArray(value) ? value.filter(Boolean) : value ? [value] : [];
-}
-
-function formatList(items: string[]): string {
-  return items.length > 0 ? items.join(", ") : "None selected";
-}
-
-function safeSubjectPart(text: string): string {
-  return text.replace(/[\r\n<>]/g, " ").slice(0, 120);
-}
-
-export async function POST(request: Request) {
-  let body: RSVPBody;
+export async function POST(request: NextRequest) {
   try {
-    body = (await request.json()) as RSVPBody;
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
-  }
+    const body = await request.json();
+    const {
+      name,
+      members,
+      fun,
+      wishes,
+    } = body;
 
-  const name = typeof body.name === "string" ? body.name.trim() : "";
-  const attending = typeof body.attending === "string" ? body.attending.trim() : "";
+    // Validate required fields
+    if (!name || !members) {
+      return NextResponse.json(
+        { error: "Missing required fields: name and number of members" },
+        { status: 400 }
+      );
+    }
 
-  if (!name || !attending) {
-    return NextResponse.json({ error: "Name and attending are required." }, { status: 400 });
-  }
+    // Get email from environment
+    const recipientEmail = process.env.RSVP_EMAIL_ADDRESS || "anupam.aastha.wedding@gmail.com";
 
-  if (!resendApiKey) {
-    return NextResponse.json({ error: "Resend is not configured. Set RESEND_API_KEY." }, { status: 500 });
-  }
+    // Format the fun array
+    const funText = Array.isArray(fun) && fun.length > 0 
+      ? fun.join(", ") 
+      : "None selected";
 
-  const recipientEmail = process.env.RSVP_EMAIL_ADDRESS?.trim() || FALLBACK_RSVP_INBOX;
-  const eventsList = normalizeStringArray(body.events);
-  const funList = normalizeStringArray(body.fun);
-  const wishes = typeof body.wishes === "string" ? body.wishes.trim() : "";
-  const guests = typeof body.guests === "string" ? body.guests.trim() : "";
+    // Send email to organizer
+    await resend.emails.send({
+      from: "Wedding RSVP <onboarding@resend.dev>",
+      to: recipientEmail,
+      subject: `New RSVP: ${name} - ${members} member(s)`,
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <style>
+              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #c9a15d 0%, #b8860b 100%); color: white; padding: 20px; border-radius: 8px; }
+              .content { padding: 20px 0; }
+              .field { margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-left: 4px solid #c9a15d; }
+              .label { font-weight: bold; color: #5a3020; }
+              .value { color: #666; margin-top: 5px; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h2>New RSVP Submission</h2>
+              </div>
+              <div class="content">
+                <div class="field">
+                  <div class="label">Name:</div>
+                  <div class="value">${escapeHtml(name)}</div>
+                </div>
+                <div class="field">
+                  <div class="label">Number of members attending:</div>
+                  <div class="value">${escapeHtml(members)}</div>
+                </div>
+                <div class="field">
+                  <div class="label">Most excited about:</div>
+                  <div class="value">${escapeHtml(funText)}</div>
+                </div>
+                ${wishes ? `
+                <div class="field">
+                  <div class="label">Wishes for the couple:</div>
+                  <div class="value">${escapeHtml(wishes)}</div>
+                </div>
+                ` : ""}
+              </div>
+            </div>
+          </body>
+        </html>
+      `,
+    });
 
-  const eventsText = formatList(eventsList);
-  const funText = formatList(funList);
+    // Send confirmation email (copy) to organizer inbox
+    await resend.emails.send({
+      from: "Anupam & Aastha <onboarding@resend.dev>",
+      to: recipientEmail,
+      subject: "RSVP Received - Anupam & Aastha's Wedding Celebration",
+      html: `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <style>
+              body { font-family: 'Playfair Display', Arial, sans-serif; line-height: 1.8; color: #333; }
+              .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+              .header { background: linear-gradient(135deg, #c9a15d 0%, #b8860b 100%); color: white; padding: 40px 20px; border-radius: 8px; text-align: center; }
+              .header h1 { margin: 0; font-size: 28px; }
+              .content { padding: 30px 20px; background: #faf8f3; border-radius: 8px; margin-top: 20px; }
+              .details { background: white; padding: 20px; border-radius: 6px; margin-top: 20px; border-left: 4px solid #c9a15d; }
+              .detail-row { margin-bottom: 15px; }
+              .detail-label { font-weight: bold; color: #5a3020; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+              .detail-value { color: #666; margin-top: 4px; }
+              .footer { text-align: center; margin-top: 30px; color: #999; font-size: 12px; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <h1>✨ RSVP Received ✨</h1>
+              </div>
+              <div class="content">
+                <p>Hi <strong>${escapeHtml(name)}</strong>,</p>
+                <p>Thank you so much for confirming your attendance! We're thrilled to celebrate this special occasion with you.</p>
+                
+                <div class="details">
+                  <div class="detail-row">
+                    <div class="detail-label">Number of Members Attending</div>
+                    <div class="detail-value">${escapeHtml(members)}</div>
+                  </div>
+                  <div class="detail-row">
+                    <div class="detail-label">Most Excited About</div>
+                    <div class="detail-value">${funText}</div>
+                  </div>
+                  ${wishes ? `
+                  <div class="detail-row">
+                    <div class="detail-label">Your Wishes for Us</div>
+                    <div class="detail-value">${escapeHtml(wishes)}</div>
+                  </div>
+                  ` : ""}
+                </div>
+                
+                <p style="margin-top: 20px;">We're looking forward to creating wonderful memories together from May 1-4, 2026 in Himachal.</p>
+                <p>If you have any questions or need to make changes, please don't hesitate to reach out.</p>
+                <p>With love and joy,<br/><strong>Anupam & Aastha</strong></p>
+              </div>
+              <div class="footer">
+                <p>📍 Himachal Pradesh | 📅 May 1-4, 2026</p>
+              </div>
+            </div>
+          </body>
+        </html>
+      `,
+    });
 
-  const resend = new Resend(resendApiKey);
-
-  const newRsvpHtml = `
-        <div style="font-family: Arial, sans-serif; line-height:1.6;">
-          <h2>New RSVP</h2>
-          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-          <p><strong>Attending:</strong> ${escapeHtml(attending)}</p>
-          <p><strong>Number of guests:</strong> ${escapeHtml(guests || "—")}</p>
-          <p><strong>Events:</strong> ${escapeHtml(eventsText)}</p>
-          <p><strong>Fun / preferences:</strong> ${escapeHtml(funText)}</p>
-          <p><strong>Wishes:</strong> ${escapeHtml(wishes || "—")}</p>
-        </div>
-      `;
-
-  const { data: data1, error: error1 } = await resend.emails.send({
-    from: FROM_ADDRESS,
-    to: recipientEmail,
-    subject: `New RSVP — ${safeSubjectPart(name)}`,
-    html: newRsvpHtml,
-  });
-
-  if (error1) {
-    console.error("[Resend] New RSVP email failed:", error1);
     return NextResponse.json(
-      { error: error1.message || "Failed to send RSVP notification." },
-      { status: 502 }
+      { success: true, message: "RSVP submitted successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("RSVP API error:", error);
+    return NextResponse.json(
+      { error: "Failed to submit RSVP. Please try again later." },
+      { status: 500 }
     );
   }
-
-  const thankYouHtml = `
-        <div style="font-family: Arial, sans-serif; line-height:1.6;">
-          <h2>RSVP received (copy)</h2>
-          <p>This confirms an RSVP was logged for <strong>${escapeHtml(name)}</strong>.</p>
-          <p><strong>Attending:</strong> ${escapeHtml(attending)}</p>
-          <p><strong>Number of guests:</strong> ${escapeHtml(guests || "—")}</p>
-          <p><strong>Events:</strong> ${escapeHtml(eventsText)}</p>
-          <p><strong>Fun / preferences:</strong> ${escapeHtml(funText)}</p>
-          <p><strong>Wishes:</strong> ${escapeHtml(wishes || "—")}</p>
-          <p style="margin-top:16px;color:#666;font-size:13px;">Anupam & Aastha — Wedding RSVP</p>
-        </div>
-      `;
-
-  const { data: data2, error: error2 } = await resend.emails.send({
-    from: FROM_ADDRESS,
-    to: recipientEmail,
-    subject: `RSVP received — ${safeSubjectPart(name)}`,
-    html: thankYouHtml,
-  });
-
-  if (error2) {
-    console.error("[Resend] RSVP copy email failed:", error2);
-    return NextResponse.json(
-      {
-        error: error2.message || "RSVP was saved but the second notification failed.",
-        partial: true,
-        id: data1?.id,
-      },
-      { status: 502 }
-    );
-  }
-
-  return NextResponse.json({ ok: true, ids: [data1?.id, data2?.id] });
 }
 
+// Helper function to escape HTML
 function escapeHtml(text: string): string {
-  return text
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  const map: { [key: string]: string } = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
 }
