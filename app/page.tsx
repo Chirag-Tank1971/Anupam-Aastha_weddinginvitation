@@ -123,6 +123,17 @@ const heroItemVariants = {
   },
 };
 
+const heroHearts = [
+  { left: "8%", delay: "0s", duration: "10.5s", size: "10px" },
+  { left: "19%", delay: "1.3s", duration: "12.2s", size: "12px" },
+  { left: "31%", delay: "0.7s", duration: "11.4s", size: "9px" },
+  { left: "44%", delay: "2.1s", duration: "13.6s", size: "11px" },
+  { left: "57%", delay: "0.4s", duration: "10.8s", size: "10px" },
+  { left: "68%", delay: "1.8s", duration: "12.8s", size: "8px" },
+  { left: "79%", delay: "0.9s", duration: "11.7s", size: "12px" },
+  { left: "90%", delay: "2.4s", duration: "13.2s", size: "10px" },
+];
+
 const SCRATCH_WIDTH = 260;
 const SCRATCH_HEIGHT = 280;
 const SCRATCH_THRESHOLD = 0.6; // 60% scratched = auto complete
@@ -439,9 +450,9 @@ export default function HomePage() {
   const heroRef = useRef<HTMLElement | null>(null);
 
   const { scrollY } = useScroll();
-  const heroParallaxYRaw = useTransform(scrollY, [0, 900], [0, 140]);
-  const heroParallaxScaleRaw = useTransform(scrollY, [0, 900], [1.12, 1]);
-  const heroOverlayOpacityRaw = useTransform(scrollY, [0, 900], [1, 0.82]);
+  const heroParallaxYRaw = useTransform(scrollY, [0, 900], [0, isMobile ? 72 : 140]);
+  const heroParallaxScaleRaw = useTransform(scrollY, [0, 900], [isMobile ? 1.04 : 1.12, 1]);
+  const heroOverlayOpacityRaw = useTransform(scrollY, [0, 900], [1, isMobile ? 0.88 : 0.82]);
   const heroParallaxY = useSpring(heroParallaxYRaw, { stiffness: 80, damping: 24, mass: 0.5 });
   const heroParallaxScale = useSpring(heroParallaxScaleRaw, { stiffness: 80, damping: 24, mass: 0.5 });
   const heroOverlayOpacity = useSpring(heroOverlayOpacityRaw, { stiffness: 90, damping: 26, mass: 0.45 });
@@ -571,6 +582,22 @@ export default function HomePage() {
           style={{ opacity: heroOverlayOpacity }}
           transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
         />
+        <div className="hero-hearts" aria-hidden="true">
+          {heroHearts.map((heart, idx) => (
+            <span
+              key={idx}
+              className="hero-heart"
+              style={
+                {
+                  "--heart-left": heart.left,
+                  "--heart-delay": heart.delay,
+                  "--heart-duration": heart.duration,
+                  "--heart-size": heart.size,
+                } as React.CSSProperties
+              }
+            />
+          ))}
+        </div>
         <div className="container">
           <motion.div
             className="hero-inner"

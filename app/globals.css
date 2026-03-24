@@ -547,8 +547,8 @@ p {
       rgba(0, 0, 0, 0.4),
       rgba(0, 0, 0, 0.75)
     ),
-    url("/hero.jpeg");
-  background-size: cover;
+    url("/hero.png");
+  background-size: cover, cover;
   background-position: center 35%;
   background-repeat: no-repeat;
   will-change: transform;
@@ -567,6 +567,69 @@ p {
   );
 }
 
+.hero-hearts {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hero-heart {
+  position: absolute;
+  left: var(--heart-left);
+  bottom: -12%;
+  width: var(--heart-size);
+  height: var(--heart-size);
+  opacity: 0;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  border-radius: 2px;
+  background: rgba(255, 206, 220, 0.5);
+  filter: drop-shadow(0 0 4px rgba(255, 198, 214, 0.45));
+  animation: heroHeartFloat var(--heart-duration) ease-in-out infinite;
+  animation-delay: var(--heart-delay);
+}
+
+.hero-heart::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -50%;
+  left: 0;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.hero-heart::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  border-radius: 50%;
+  background: inherit;
+}
+
+@keyframes heroHeartFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(0.88) rotate(-6deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.45;
+  }
+  70% {
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate3d(-14px, -118vh, 0) scale(1.08) rotate(8deg);
+    opacity: 0;
+  }
+}
+
 .hero::before {
   content: "";
   position: absolute;
@@ -578,10 +641,17 @@ p {
 
 .hero-inner {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   max-width: 720px;
   margin: 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-heart {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .hero-date {
@@ -1345,6 +1415,12 @@ footer {
     padding-top: 104px;
   }
 
+  .hero-parallax-layer {
+    inset: -2% -10%;
+    background-position: center 14%;
+    background-size: cover, 90% auto;
+  }
+
   .hero-names {
     letter-spacing: 0.26em;
   }
@@ -1371,6 +1447,12 @@ footer {
   .hero-tagline {
     font-size: 15px;
     padding: 0 8px;
+  }
+
+  .hero-parallax-layer {
+    inset: -2% -14%;
+    background-position: center 12%;
+    background-size: cover, 94% auto;
   }
 
   /* Lift music toggle higher above mobile browser / gesture bar */
