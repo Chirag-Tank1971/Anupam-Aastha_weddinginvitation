@@ -726,7 +726,7 @@ export default function HomePage() {
                 .
               </p>
               <p>
-                Son of <strong>Mr. Abhay Kumar Srivastava</strong> &amp;{" "}
+                Son of <strong>Mr. Abhay Kumar </strong> &amp;{" "}
                 <strong>Mrs. Antara </strong>.
               </p>
             </div>
