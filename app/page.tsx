@@ -16,10 +16,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Mehendi & High Tea",
     note: "An intimate afternoon of colors, laughter, and music.",
-    details: [
-      "Timing - 4:00 PM onwards",
-      "Venue: Hotel Dusit Fagu, Shimla",
-    ],
+    details: ["Timing - 4:00 PM onwards"],
     focus: "center 40%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
@@ -28,10 +25,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Engagement Ceremony",
     note: "The beginning of forever with our loved ones.",
-    details: [
-      "Timing - 7:00 PM onwards",
-      "Venue: Hotel Taj Theog, Theog (near Shimla)",
-    ],
+    details: ["Timing - 7:00 PM onwards"],
     // Adjust focal point so the couple's hands and faces are nicely visible on desktop
     focus: "center 25%",
     image: "/timeline/engagement.jpeg",
@@ -41,11 +35,7 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Haldi ceremony",
     note: "A joyful yellow celebration of love and blessings.",
-    details: [
-      "Tilak - 11:00 AM",
-      "Haldi - 2:30 PM",
-      "Venue: Hotel Dusit Fagu, Shimla",
-    ],
+    details: ["Tilak - 11:00 AM", "Haldi - 2:30 PM"],
     focus: "center 35%",
     image: "/timeline/haldi.jpeg",
     accent: "#8b4789",
@@ -54,10 +44,7 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Sangeet Night",
     note: "Dance, music, and unforgettable moments with everyone.",
-    details: [
-      "Timing - 7:00 PM onwards",
-      "Venue: Celebration arena, Shimla",
-    ],
+    details: ["Timing - 7:00 PM onwards"],
     focus: "center 10%",
     image: "/timeline/sangeet.jpeg",
     accent: "#c9a15d",
@@ -66,11 +53,7 @@ const timelineEvents = [
     time: "3 May 2026",
     title: "Wedding Ceremony",
     note: "Sacred vows at sunset amidst the hills.",
-    details: [
-      "Sehra Bandi - 2:30 PM",
-      "Baraat - 3:00 PM",
-      "Venue: Hotel Taj Theog, Theog (near Shimla)",
-    ],
+    details: ["Sehra Bandi - 2:30 PM", "Baraat - 3:00 PM"],
     focus: "center 15%",
     image: "/timeline/wedding.jpeg",
     accent: "#a6702f",
@@ -79,17 +62,14 @@ const timelineEvents = [
     time: "4 May 2026",
     title: "Gala dinner",
     note: "A graceful evening to celebrate our new beginning.",
-    details: [
-      "Timing - 7:30 PM onwards",
-      "Venue: Club Mahindra Kandaghat, Himachal Pradesh",
-    ],
+    details: ["Timing - 7:30 PM onwards"],
     focus: "center 20%",
     image: "/timeline/reception.jpeg",
     accent: "#7e4f7d",
   },
 ];
 
-type LocationKey = "wedding" | "stay" | "travel";
+type LocationKey = "wedding" | "stay" | "gala";
 
 // Countdown to the main wedding day (3 May 2026)
 const targetDate = new Date("2026-05-03T18:00:00+05:30");
@@ -632,7 +612,7 @@ export default function HomePage() {
                 Discover the details
               </motion.a>
               <div className="hero-subtle">
-                Let&apos;s celebrate the start of forever together
+                Join us as we begin our forever
               </div>
             </motion.div>
           </motion.div>
@@ -650,7 +630,7 @@ export default function HomePage() {
             variants={fadeInUp}
           >
             <div className="eyebrow">Dear friends &amp; family</div>
-            <h2>We are inviting you to our wedding</h2>
+            <h2>Welcome to our wedding celebration</h2>
             <div className="divider" />
           </motion.div>
           <motion.p
@@ -661,10 +641,9 @@ export default function HomePage() {
             variants={fadeInUp}
             custom={1}
           >
-            With joyful hearts, we invite you to join us as we celebrate our
-            love and commitment to one another on our special day.
-            Your presence means the world to us, and we cannot wait to share
-            these unforgettable moments with you.
+            We look forward to welcoming you as we come together to celebrate
+            these special moments. Your presence will make our celebrations
+            truly memorable.
           </motion.p>
         </div>
       </section>
@@ -718,8 +697,7 @@ export default function HomePage() {
             variants={fadeInUp}
             custom={0}
           >
-            <div className="eyebrow">With blessings of</div>
-            <h2>Our parents</h2>
+            <h2>Blessing of our families</h2>
             <div className="divider" />
           </motion.div>
 
@@ -742,7 +720,7 @@ export default function HomePage() {
               <h3>Mr. Anupam Rakshit</h3>
               <p>
                 Son of <strong>Mr. Abhay Kumar Srivastava</strong> &amp;{" "}
-                <strong>Mrs. Chanda Srivastava</strong>.
+                <strong>Mrs. Antara Srivatsav</strong>.
               </p>
             </div>
 
@@ -847,13 +825,13 @@ export default function HomePage() {
                 <button
                   type="button"
                   className={
-                    activeLocation === "travel"
+                    activeLocation === "gala"
                       ? "map-toggle-btn map-toggle-btn-active"
                       : "map-toggle-btn"
                   }
-                  onClick={() => setActiveLocation("travel")}
+                  onClick={() => setActiveLocation("gala")}
                 >
-                  Travel points
+                  Gala dinner
                 </button>
               </div>
 
@@ -881,27 +859,26 @@ export default function HomePage() {
                     />
                   </div>
                 </>
-              ) : activeLocation === "travel" ? (
+              ) : activeLocation === "gala" ? (
                 <>
-                  <div className="location-name">Travel Points</div>
+                  <div className="location-name">Hyatt Centric Sector 17 Chandigarh</div>
                   <div className="location-address">
-                    Chandigarh &amp; Lucknow
+                    Sector 17, Chandigarh
                   </div>
                   <p className="location-note">
-                    Recommended airports for guest travel are Chandigarh International
-                    Airport and Lucknow Airport.
+                    Gala dinner will be hosted at Hyatt Centric Sector 17 Chandigarh.
                   </p>
                   <a
                     className="muted-link"
-                    href="https://maps.google.com/?q=Chandigarh+International+Airport"
+                    href="https://www.google.com/maps/search/?api=1&query=Hyatt+Centric+Sector+17+Chandigarh"
                     target="_blank"
                     rel="noreferrer"
                   >
-                    Open Chandigarh Airport in Maps
+                    Open in Google Maps
                   </a>
                   <div className="map-wrapper">
                     <iframe
-                      src="https://www.google.com/maps?q=Chandigarh+International+Airport&output=embed"
+                      src="https://www.google.com/maps?q=Hyatt+Centric+Sector+17+Chandigarh&output=embed"
                       loading="lazy"
                       allowFullScreen
                       referrerPolicy="no-referrer-when-downgrade"
@@ -918,8 +895,7 @@ export default function HomePage() {
                     Majhar Rd. Katheldi, Himachal Pradesh - 171201
                   </div>
                   <p className="location-note">
-                    Pre-wedding celebrations include events at Hotel Dusit Fagu and
-                    Club Mahindra Kandaghat.
+                    Pre-wedding celebrations include events at Hotel Dusit Fagu.
                   </p>
                   <a
                     className="muted-link"
@@ -948,8 +924,8 @@ export default function HomePage() {
       {/* ORGANIZATIONAL / PLANNER */}
       {/* (Planner / FAQ sections intentionally omitted to avoid incorrect details) */}
 
-      {/* RSVP — groom family */}
-      <section id="rsvp" className="rsvp rsvp-family-section">
+      {/* Family compliments */}
+      <section id="family-compliments" className="family-compliments-section">
         <div className="container">
           <motion.div
             className="section-header"
@@ -958,41 +934,28 @@ export default function HomePage() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <div className="eyebrow">RSVP</div>
-            <h2>With love from the family</h2>
+            <h2>Blessing of our families</h2>
             <div className="divider" />
           </motion.div>
           <motion.div
-            className="card rsvp-family-card"
+            className="card family-compliments-card"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
             variants={fadeInUp}
           >
-            <div className="rsvp-family-block">
-              <div className="rsvp-family-label">Groom&apos;s chacha</div>
-              <p className="rsvp-family-name">Vinay Kumar Srivastava</p>
-            </div>
-            <div className="rsvp-family-block">
-              <div className="rsvp-family-label">Groom&apos;s Choti mummy</div>
-              <p className="rsvp-family-name">Neera Srivastava</p>
-            </div>
-            <div className="rsvp-family-block">
-              <div className="rsvp-family-label">Groom&apos;s brothers</div>
-              <ul className="rsvp-family-list">
-                <li>Amitabh</li>
-                <li>Krishn</li>
-              </ul>
-            </div>
-            <div className="rsvp-family-block">
-              <div className="rsvp-family-label">Groom&apos;s sisters</div>
-              <ul className="rsvp-family-list">
-                <li>Anjali</li>
-                <li>Aditi</li>
-                <li>Divya</li>
-              </ul>
-            </div>
-            <p className="rsvp-family-note">
+            <p className="family-compliments-lead">With best compliments from</p>
+            <ul className="family-compliments-names">
+              <li>Vinay Kumar Srivastava</li>
+              <li>Neera Srivastava</li>
+              <li>Mrs. Antara Srivatsav</li>
+              <li>Amitabh</li>
+              <li>Krishn</li>
+              <li>Anjali</li>
+              <li>Aditi</li>
+              <li>Divya</li>
+            </ul>
+            <p className="family-compliments-note">
               Your presence will make our celebrations complete. We hope to see you in Shimla.
             </p>
           </motion.div>
