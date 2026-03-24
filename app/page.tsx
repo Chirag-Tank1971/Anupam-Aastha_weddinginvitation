@@ -948,6 +948,57 @@ export default function HomePage() {
       {/* ORGANIZATIONAL / PLANNER */}
       {/* (Planner / FAQ sections intentionally omitted to avoid incorrect details) */}
 
+      {/* RSVP — groom family */}
+      <section id="rsvp" className="rsvp rsvp-family-section">
+        <div className="container">
+          <motion.div
+            className="section-header"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={fadeInUp}
+          >
+            <div className="eyebrow">RSVP</div>
+            <h2>With love from the family</h2>
+            <div className="divider" />
+          </motion.div>
+          <motion.div
+            className="card rsvp-family-card"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={fadeInUp}
+          >
+            <div className="rsvp-family-block">
+              <div className="rsvp-family-label">Groom&apos;s chacha</div>
+              <p className="rsvp-family-name">Vinay Kumar Srivastava</p>
+            </div>
+            <div className="rsvp-family-block">
+              <div className="rsvp-family-label">Groom&apos;s Choti mummy</div>
+              <p className="rsvp-family-name">Neera Srivastava</p>
+            </div>
+            <div className="rsvp-family-block">
+              <div className="rsvp-family-label">Groom&apos;s brothers</div>
+              <ul className="rsvp-family-list">
+                <li>Amitabh</li>
+                <li>Krishn</li>
+              </ul>
+            </div>
+            <div className="rsvp-family-block">
+              <div className="rsvp-family-label">Groom&apos;s sisters</div>
+              <ul className="rsvp-family-list">
+                <li>Anjali</li>
+                <li>Aditi</li>
+                <li>Divya</li>
+              </ul>
+            </div>
+            <p className="rsvp-family-note">
+              Your presence will make our celebrations complete. We hope to see you in Shimla.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Music toggle (bottom-right) — portaled to body so it stays above intro/overlays */}
       {mounted &&
         typeof document !== "undefined" &&
