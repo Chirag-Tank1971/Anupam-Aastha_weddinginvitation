@@ -15,7 +15,7 @@ const timelineEvents = [
   {
     time: "1 May 2026",
     title: "Mehendi & High Tea",
-    note: "An intimate afternoon of colors, laughter, and music.",
+    note: "An intimate evening of colors, laughter, and music.",
     details: ["Timing - 4:00 PM onwards", "Dusit Gourmet"],
     focus: "center 40%",
     image: "/timeline/mehendi.jpeg",
@@ -727,7 +727,7 @@ export default function HomePage() {
               </p>
               <p>
                 Son of <strong>Mr. Abhay Kumar Srivastava</strong> &amp;{" "}
-                <strong>Mrs. Antara Srivatsav</strong>.
+                <strong>Mrs. Antara </strong>.
               </p>
             </div>
 
