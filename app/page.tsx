@@ -77,7 +77,7 @@ const timelineEvents = [
   },
   {
     time: "4 May 2026",
-    title: "Reception",
+    title: "Gala dinner",
     note: "A graceful evening to celebrate our new beginning.",
     details: [
       "Timing - 7:30 PM onwards",
