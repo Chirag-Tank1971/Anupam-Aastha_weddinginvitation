@@ -231,7 +231,7 @@ export function VenueCard() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className="relative h-[100svh] w-full shrink-0 md:h-[100dvh]">
+    <div className="relative h-[82svh] w-full shrink-0 md:h-[90dvh]">
       <article
         id="venue-card"
         className="relative isolate h-full w-full overflow-hidden rounded-2xl border border-[#111]/8 bg-[#FCF9F7] shadow-[0_12px_40px_-16px_rgba(0,0,0,0.12)]"
