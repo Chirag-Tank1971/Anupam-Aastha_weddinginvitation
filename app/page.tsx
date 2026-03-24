@@ -629,7 +629,7 @@ export default function HomePage() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <div className="eyebrow">Dear friends &amp; family</div>
+            <div className="eyebrow">Dear family &amp; friends</div>
             <h2>Welcome to our wedding celebration</h2>
             <div className="divider" />
           </motion.div>
