@@ -16,7 +16,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Mehendi & High Tea",
     note: "An intimate afternoon of colors, laughter, and music.",
-    details: ["Timing - 4:00 PM onwards"],
+    details: ["Timing - 4:00 PM onwards", "Dusit Gourmet"],
     focus: "center 40%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
@@ -25,7 +25,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Engagement Ceremony",
     note: "The beginning of forever with our loved ones.",
-    details: ["Timing - 7:00 PM onwards"],
+    details: ["Timing - 7:00 PM onwards", "Hotel Taj Theog"],
     // Adjust focal point so the couple's hands and faces are nicely visible on desktop
     focus: "center 25%",
     image: "/timeline/engagement.jpeg",
@@ -35,7 +35,7 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Haldi ceremony",
     note: "A joyful yellow celebration of love and blessings.",
-    details: ["Tilak - 11:00 AM", "Haldi - 2:30 PM"],
+    details: ["Tilak - 11:00 AM", "Haldi - 2:30 PM", "Amphitheater, Dusit"],
     focus: "center 35%",
     image: "/timeline/haldi.jpeg",
     accent: "#8b4789",
@@ -44,7 +44,7 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Sangeet Night",
     note: "Dance, music, and unforgettable moments with everyone.",
-    details: ["Timing - 7:00 PM onwards"],
+    details: ["Timing - 7:00 PM onwards", "The Terrace Lawn"],
     focus: "center 10%",
     image: "/timeline/sangeet.jpeg",
     accent: "#c9a15d",
@@ -53,7 +53,7 @@ const timelineEvents = [
     time: "3 May 2026",
     title: "Wedding Ceremony",
     note: "Sacred vows at sunset amidst the hills.",
-    details: ["Sehra Bandi - 2:30 PM", "Baraat - 3:00 PM"],
+    details: ["Sehra Bandi - 2:30 PM", "Baraat - 3:00 PM", "Hotel Taj Theog"],
     focus: "center 15%",
     image: "/timeline/wedding.jpeg",
     accent: "#a6702f",
@@ -62,7 +62,7 @@ const timelineEvents = [
     time: "4 May 2026",
     title: "Gala dinner",
     note: "A graceful evening to celebrate our new beginning.",
-    details: ["Timing - 7:30 PM onwards"],
+    details: ["Timing - 7:30 PM onwards", "Hyatt Centric Sector 17, Chandigarh"],
     focus: "center 20%",
     image: "/timeline/reception.jpeg",
     accent: "#7e4f7d",
@@ -593,9 +593,9 @@ export default function HomePage() {
             </motion.div>
             <div className="hero-place"></div>
             <motion.p className="hero-tagline" variants={heroItemVariants}>
-              With the blessings of our families, we invite you to join us in
-              celebrating days filled with rituals, joy, music, and heartfelt
-              memories in Himachal.
+            With the blessings of our families,
+          we warmly invite you to a celebration woven with tradition and music,
+      and heartfelt moments amidst the enchanting hills of Himachal Pradesh.
             </motion.p>
             <motion.div
               className="hero-cta"
@@ -718,6 +718,13 @@ export default function HomePage() {
             <div className="card">
               <div className="tag">Groom&apos;s family</div>
               <h3>Mr. Anupam Rakshit</h3>
+              <p>
+                Grandson of{" "}
+                <strong>
+                  Late Smt. Shanti Devi &amp; Late Shri Keshav Chandra Srivastava
+                </strong>
+                .
+              </p>
               <p>
                 Son of <strong>Mr. Abhay Kumar Srivastava</strong> &amp;{" "}
                 <strong>Mrs. Antara Srivatsav</strong>.
@@ -934,7 +941,7 @@ export default function HomePage() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeInUp}
           >
-            <h2>Blessing of our families</h2>
+            <h2>With best compliments from</h2>
             <div className="divider" />
           </motion.div>
           <motion.div
@@ -944,19 +951,17 @@ export default function HomePage() {
             viewport={{ once: true, amount: 0.25 }}
             variants={fadeInUp}
           >
-            <p className="family-compliments-lead">With best compliments from</p>
-            <ul className="family-compliments-names">
-              <li>Vinay Kumar Srivastava</li>
-              <li>Neera Srivastava</li>
-              <li>Mrs. Antara Srivatsav</li>
-              <li>Amitabh</li>
-              <li>Krishn</li>
-              <li>Anjali</li>
-              <li>Aditi</li>
-              <li>Divya</li>
-            </ul>
+            <div className="family-compliments-names">
+              <p className="family-compliments-primary">
+                <strong>Vinay Kumar Srivastava</strong> &amp;{" "}
+                <strong>Neera Srivastava</strong>
+              </p>
+              <p className="family-compliments-secondary">
+                Amitabh, Krishn, Anjali, Aditi, Divya
+              </p>
+            </div>
             <p className="family-compliments-note">
-              Your presence will make our celebrations complete. We hope to see you in Shimla.
+              Your presence will make our celebrations complete. We hope to see you in Himachal Pradesh.
             </p>
           </motion.div>
         </div>
