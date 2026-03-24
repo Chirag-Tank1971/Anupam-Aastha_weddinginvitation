@@ -17,6 +17,7 @@ const timelineEvents = [
     title: "Mehendi & High Tea",
     note: "An intimate afternoon of colors, laughter, and music.",
     details: [
+      "Timing - 4:00 PM onwards",
       "Venue: Hotel Dusit Fagu, Shimla",
     ],
     focus: "center 40%",
@@ -28,6 +29,7 @@ const timelineEvents = [
     title: "Engagement Ceremony",
     note: "The beginning of forever with our loved ones.",
     details: [
+      "Timing - 7:00 PM onwards",
       "Venue: Hotel Taj Theog, Theog (near Shimla)",
     ],
     // Adjust focal point so the couple's hands and faces are nicely visible on desktop
@@ -52,7 +54,8 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Sangeet Night",
     note: "Dance, music, and unforgettable moments with everyone.",
-    details:[
+    details: [
+      "Timing - 7:00 PM onwards",
       "Venue: Celebration arena, Shimla",
     ],
     focus: "center 10%",
@@ -64,6 +67,8 @@ const timelineEvents = [
     title: "Wedding Ceremony",
     note: "Sacred vows at sunset amidst the hills.",
     details: [
+      "Sehra Bandi - 2:30 PM",
+      "Baraat - 3:00 PM",
       "Venue: Hotel Taj Theog, Theog (near Shimla)",
     ],
     focus: "center 15%",
@@ -75,6 +80,7 @@ const timelineEvents = [
     title: "Reception",
     note: "A graceful evening to celebrate our new beginning.",
     details: [
+      "Timing - 7:30 PM onwards",
       "Venue: Club Mahindra Kandaghat, Himachal Pradesh",
     ],
     focus: "center 20%",
