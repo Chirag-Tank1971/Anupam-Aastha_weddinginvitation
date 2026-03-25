@@ -715,7 +715,7 @@ export default function HomePage() {
               },
             }}
           >
-            <div className="card">
+            <div className="card family-card family-card--groom">
               <div className="tag">Groom&apos;s family</div>
               <h3>Mr. Anupam Rakshit</h3>
               <p>
@@ -726,12 +726,17 @@ export default function HomePage() {
                 .
               </p>
               <p>
-                Son of <strong>Mr. Abhay Kumar </strong> &amp;{" "}
-                <strong>Mrs. Antara </strong>.
+                Son of <strong>Mr. Abhay Kumar Srivastava</strong> &amp;{" "}
+                <strong>Mrs. Antara Srivastava</strong>.
+              </p>
+              <p>
+                Chacha chachi -{" "}
+                <strong>Mr. Vinay Kumar Srivastava</strong> &amp;{" "}
+                <strong>Mrs. Neera Srivastava</strong>.
               </p>
             </div>
 
-            <div className="card">
+            <div className="card family-card family-card--bride">
               <div className="tag">Bride&apos;s family</div>
               <h3>Ms. Aastha Kapil</h3>
               <p>
@@ -952,10 +957,6 @@ export default function HomePage() {
             variants={fadeInUp}
           >
             <div className="family-compliments-names">
-              <p className="family-compliments-primary">
-                <strong>Vinay Kumar Srivastava</strong> &amp;{" "}
-                <strong>Neera Srivastava</strong>
-              </p>
               <p className="family-compliments-secondary">
                 Amitabh, Krishn, Anjali, Aditi, Divya
               </p>
