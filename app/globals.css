@@ -672,11 +672,24 @@ p {
   font-family: "Playfair Display", serif;
   font-size: clamp(32px, 5vw, 44px);
   text-transform: uppercase;
-  letter-spacing: 0.4em;
+  letter-spacing: 0;
   font-weight: 400;
   margin-bottom: 18px;
   color: rgba(235, 194, 98, 0.98);
   text-shadow: 0 3px 18px rgba(0, 0, 0, 0.7);
+}
+
+.hero-name {
+  letter-spacing: 0.4em;
+}
+
+.hero-amp {
+  letter-spacing: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: -0.28em 0 -0.06em;
+  transform: translateY(0);
 }
 
 .hero-place {
@@ -1099,6 +1112,7 @@ p {
   margin-bottom: 12px;
   letter-spacing: 0.05em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  text-align: center;
 }
 
 .family-card--groom h3 {

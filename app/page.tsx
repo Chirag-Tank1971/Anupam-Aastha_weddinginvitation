@@ -17,7 +17,7 @@ const timelineEvents = [
     title: "Mehendi & High Tea",
     note: "An intimate evening of colors, laughter, and music.",
     details: ["Timing - 4:00 PM onwards", "Dusit Gourmet"],
-    focus: "center 40%",
+    focus: "center 10%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
   },
@@ -589,7 +589,9 @@ export default function HomePage() {
               3 May 2026 • Shimla Hills
             </motion.div>
             <motion.div className="hero-names" variants={heroItemVariants}>
-              Anupam &amp; Aastha
+              <span className="hero-name">Anupam</span>
+              <span className="hero-amp">&amp;</span>
+              <span className="hero-name">Aastha</span>
             </motion.div>
             <div className="hero-place"></div>
             <motion.p className="hero-tagline" variants={heroItemVariants}>
