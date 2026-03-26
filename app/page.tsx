@@ -742,6 +742,10 @@ export default function HomePage() {
               <div className="tag">Bride&apos;s family</div>
               <h3>Ms. Aastha Kapil</h3>
               <p>
+                Granddaughter of <strong>Late. Shiv Kumar Kapil</strong> &amp;{" "}
+                <strong>Late. Nirmala Kap</strong>.
+              </p>
+              <p>
                 Daughter of <strong>Mr. Digvijay Kapil</strong> &amp;{" "}
                 <strong>Mrs. Radhika Kapil</strong>.
               </p>
