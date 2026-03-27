@@ -1112,7 +1112,7 @@ p {
   margin-bottom: 12px;
   letter-spacing: 0.05em;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-  text-align: center;
+  text-align: left;
 }
 
 .family-card--groom h3 {
