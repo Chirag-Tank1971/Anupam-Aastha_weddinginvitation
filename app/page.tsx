@@ -16,7 +16,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Mehendi & High Tea",
     note: "An intimate evening of colors, laughter, and music.",
-    details: ["Timing - 4:00 PM onwards", "Dusit Gourmet"],
+    details: ["Timing - 4:00 PM onwards", "Dusit D2 Fagu Gourmet"],
     focus: "center 10%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
@@ -35,7 +35,7 @@ const timelineEvents = [
     time: "2 May 2026",
     title: "Haldi ceremony",
     note: "A joyful yellow celebration of love and blessings.",
-    details: ["Tilak - 11:00 AM", "Haldi - 2:30 PM", "Amphitheater, Dusit"],
+    details: ["Tilak - 11:00 AM", "Haldi - 2:30 PM", "Amphitheater, Dusit D2 Fagu"],
     focus: "center 35%",
     image: "/timeline/haldi.jpeg",
     accent: "#8b4789",
@@ -439,6 +439,12 @@ export default function HomePage() {
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.32;
+    }
   }, []);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: "00",
@@ -908,16 +914,16 @@ export default function HomePage() {
                 <>
                   <div className="location-name">Stay &amp; Pre-Wedding Venues</div>
                   <div className="location-address">
-                    Hotel Dusit Fagu
+                    Dusit D2 Fagu
                     <br />
                     Majhar Rd. Katheldi, Himachal Pradesh - 171201
                   </div>
                   <p className="location-note">
-                    Pre-wedding celebrations include events at Hotel Dusit Fagu.
+                    Pre-wedding celebrations include events at Dusit D2 Fagu.
                   </p>
                   <a
                     className="muted-link"
-                    href="https://www.google.com/maps/search/?api=1&query=Hotel+Dusit+Fagu+Shimla"
+                    href="https://www.google.com/maps/search/?api=1&query=Dusit+D2+Fagu+Shimla"
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -925,7 +931,7 @@ export default function HomePage() {
                   </a>
                   <div className="map-wrapper">
                     <iframe
-                      src="https://www.google.com/maps?q=Hotel+Dusit+Fagu+Shimla&output=embed"
+                      src="https://www.google.com/maps?q=Dusit+D2+Fagu+Shimla&output=embed"
                       loading="lazy"
                       allowFullScreen
                       referrerPolicy="no-referrer-when-downgrade"
