@@ -16,7 +16,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Mehendi & High Tea",
     note: "An intimate evening of colors, laughter, and music.",
-    details: ["Timing - 4:00 PM onwards", "Dusit D2 Fagu Gourmet"],
+    details: ["Timing - 4:00 PM onwards", "Dusit D2 Fagu"],
     focus: "center 10%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
@@ -738,7 +738,7 @@ export default function HomePage() {
                 <strong>Mrs. Antara Srivastava</strong>.
               </p>
               <p>
-                Chacha chachi -{" "}
+                Chacha Chachi -{" "}
                 <strong>Mr. Vinay Kumar Srivastava</strong> &amp;{" "}
                 <strong>Mrs. Neera Srivastava</strong>.
               </p>
@@ -749,7 +749,7 @@ export default function HomePage() {
               <h3>Ms. Aastha Kapil</h3>
               <p>
                 Granddaughter of <strong>Late. Shiv Kumar Kapil</strong> &amp;{" "}
-                <strong>Late. Nirmala Kap</strong>.
+                <strong>Late. Nirmala Kapil</strong>.
               </p>
               <p>
                 Daughter of <strong>Mr. Digvijay Kapil</strong> &amp;{" "}
