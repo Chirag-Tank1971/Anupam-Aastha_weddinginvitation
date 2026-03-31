@@ -16,7 +16,7 @@ const timelineEvents = [
     time: "1 May 2026",
     title: "Mehendi & High Tea",
     note: "An intimate evening of colors, laughter, and music.",
-    details: ["Timing - 4:00 PM onwards", "Dusit D2 Fagu"],
+    details: ["Timing - 4:00 PM onwards", "Dusit Gourmet , Dusit D2 Fagu"],
     focus: "center 10%",
     image: "/timeline/mehendi.jpeg",
     accent: "#b8860b",
